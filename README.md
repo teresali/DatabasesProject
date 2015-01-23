@@ -1,4 +1,5 @@
-DatabasesProject
+# DatabasesProject
+
 Rebecca Howarth, Teresa Li, Tomasz Stefaniak
 
 Description:
