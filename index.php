@@ -36,12 +36,13 @@ include("config.php");
     $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
     if($db->error) {
-      echo("Connection Error")
+      echo("Connection Error");
     }
-    echo("Conected to Database")
+    echo("Conected to Database");
 
-    $q = "CREATE TABLE test (id INT(3))"
-    $db->query($q)
+    $q = "CREATE TABLE test (id INT(3))";
+    $db->query($q);
+    echo("DONE")
 
   ?>
 
