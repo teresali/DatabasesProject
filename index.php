@@ -51,6 +51,15 @@ include("config.php");
     } else {
       echo "Error: " . $sql . "<br>" . $db->error;
     }
+
+    $dataQ = "SELECT * FROM test";
+
+    $result = $db->query($dataQ);
+
+    $data = $result->fetch_assoc();
+
+    echo $data["id"];
+
     echo("DONE")
 
   ?>
