@@ -44,7 +44,7 @@ include("config.php");
     
     $db->query($q);
 
-    $sql = "INSERT INTO q (id) VALUES (456)";
+    $sql = "INSERT INTO test (id) VALUES (456)";
 
     if ($db->query($sql) === TRUE) {
       echo "New record created successfully";
