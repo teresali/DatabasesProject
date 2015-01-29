@@ -38,10 +38,19 @@ include("config.php");
     if($db->error) {
       echo("Connection Error");
     }
-    echo("Conected to Database");
+    echo("Connected to Database");
 
     $q = "CREATE TABLE test (id INT(3))";
+    
     $db->query($q);
+
+    $sql = "INSERT INTO q (id) VALUES (456)";
+
+    if ($db->query($sql) === TRUE) {
+      echo "New record created successfully";
+    } else {
+      echo "Error: " . $sql . "<br>" . $db->error;
+    }
     echo("DONE")
 
   ?>
