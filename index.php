@@ -1,5 +1,4 @@
 <?php 
-  // include('php/DB.php');
   function __autoload($class_name) {
     include 'php/' . $class_name . '.php';
   }
