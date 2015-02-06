@@ -1,9 +1,11 @@
 <?php 
-include("config.php");
+  // include('php/DB.php');
+  function __autoload($class_name) {
+    include 'php/' . $class_name . '.php';
+  }
 
 ?>
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <!-- Basic Metas -->
@@ -11,7 +13,7 @@ include("config.php");
   <meta name="author" content="Teresa Li">
   <meta name="description" content="Databases Project">
 
-  <title>Databases</title>
+  <title>Databases Project</title>
 
   <!-- Mobile Metas -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -19,6 +21,11 @@ include("config.php");
   <!-- CSS Files -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet" type="text/css">
+
+  <!-- JS -->
+  <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script> <!-- jQuery --> 
+  <script type="text/javascript" src="js/bootstrap.min.js"></script> <!-- bootstrap -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script> <!-- angularJS -->
 
   <!-- Google Web Fonts -->
 
@@ -32,43 +39,66 @@ include("config.php");
   <div id="wrapper">
 
   Hello World!
-  <?php
-    $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+<?php
+  $db = new DB();
 
-    if($db->error) {
-      echo("Connection Error");
-    }
-    echo("Connected to Database");
+  $r = $db->query("SELECT * FROM test");
+  $data = $r->fetch_assoc();
+  echo $data["id"];
 
-    $q = "CREATE TABLE test (id INT(3))";
+  // $a = new Assessment;
+
+
+    // $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+    // if($db->error) {
+    //   echo("Connection Error");
+    // }
+    // echo("Connected to Database");
+
+    // $q = "CREATE TABLE test (id INT(3))";
     
-    $db->query($q);
+    // $db->query($q);
 
-    $sql = "INSERT INTO test (id) VALUES (456)";
+    // $sql = "INSERT INTO test (id) VALUES (456)";
 
-    if ($db->query($sql) === TRUE) {
-      echo "New record created successfully";
-    } else {
-      echo "Error: " . $sql . "<br>" . $db->error;
-    }
+    // if ($db->query($sql) === TRUE) {
+    //   echo "New record created successfully";
+    // } else {
+    //   echo "Error: " . $sql . "<br>" . $db->error;
+    // }
 
-    $dataQ = "SELECT * FROM test";
+    // $dataQ = "SELECT * FROM test";
 
-    $result = $db->query($dataQ);
+    // $result = $db->query($dataQ);
 
-    $data = $result->fetch_assoc();
+    // $data = $result->fetch_assoc();
 
-    echo $data["id"];
+    // echo $data["id"];
 
-    echo("DONE")
+    // echo("DONE")
 
-  ?>
+?>
 
 
   </div> <!-- wrapper end -->
 </body>
 
+<script>
+  // testing jQuery
+  $(document).ready(function() {
+    if (typeof jQuery == 'undefined') {
+      console.log("jQuery not loaded");
+    } else {
+      console.log("WOOHOO!");
+    }
+  });
 
-<!-- JS -->
-<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script> <!-- jQuery --> 
-<script type="text/javascript" src="js/bootstrap.min.js"></script> <!-- bootstrap -->
+
+
+</script>
+
+
+
+
+
