@@ -1,14 +1,26 @@
 <?php 
 
 class Assessment{
-  private $data = array();
+  private groupId;
+  private reportId;
+  private score(6);
 
-  function __construct($a) {
-
+  function __construct($groupId, $reportId) {
+    $this->groupId = $groupId;
+    $this->reportId = $reportId;
   }
 
-  public function getData() {
+  /* Getters for fields */
+  public function getGroupId() {
     return $this->data;
+  }
+
+
+  public function submit($s1, $s2, $s3, $s4, $s5) {
+    var total = $s1 + $s2 + $s3 + $s4 + $s5;
+    # set the score array
+
+    # update the database
   }
 }
 

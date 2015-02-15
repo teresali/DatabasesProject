@@ -1,0 +1,23 @@
+body {
+  width: 100%;
+}
+
+.jumbotron {
+  height: 100%;
+  background-size: cover;
+  background-image: url(../img/background.jpg);
+}
+
+.white-box {
+  background-color: rgba(255, 255, 255, 0.93);
+  width: 450px;
+  height: 320px;
+  border-radius: 7px;
+  margin-top: 10%;
+  padding-top: 25px;
+}
+
+#login-form {
+  padding: 20px;
+  opacity: 1;
+}
