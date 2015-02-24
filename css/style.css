@@ -1,23 +1,43 @@
-body {
+body, html, wrapper {
   width: 100%;
+  height:100%;
 }
 
 .jumbotron {
   height: 100%;
   background-size: cover;
-  background-image: url(../img/background.jpg);
+  background-image: url(../img/background-dark.jpg);
 }
 
 .white-box {
   background-color: rgba(255, 255, 255, 0.93);
-  width: 450px;
-  height: 320px;
-  border-radius: 7px;
+  border-radius: 5px;
   margin-top: 10%;
   padding-top: 25px;
+  -moz-box-shadow: 0 0 2px 2px #696969;
+  -webkit-box-shadow: 0 0 2px 2px #696969;
+  box-shadow: 0 0 2px 2px #696969;
 }
 
-#login-form {
-  padding: 20px;
+.form {
+  padding: 30px;
   opacity: 1;
+}
+
+#login-box {
+  width: 450px;
+  height: 320px;
+}
+
+#register-box {
+  width: 580px;
+  height: 440px;
+}
+
+.font-8 {
+  font-size:8pt;
+}
+
+.font-10 {
+  font-size:10pt;
 }
