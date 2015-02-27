@@ -2,17 +2,26 @@
 include('config.php');
 
 
-class Database {
+final class Database {
   private $mysqli;
 
-  public function __construct() { 
+  /* Private constructor so no one else can instance it */
+  private function __construct() { 
     $this->mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-    
+
     if($this->mysqli->error) {
       console.log("DB connection error");
     } else {
       console.log("Connected to database");
     }
+  }
+
+  public static function Instance() {
+    static $instance = null;
+    if ($instance === null) {
+      $instance = new Database();
+    }
+    return $instance;
   }
 
   /* Returns the mysqli object 

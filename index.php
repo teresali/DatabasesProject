@@ -12,6 +12,7 @@
 <body>
 
   <?php 
+
   if (!isset($_SESSION['user'])) {
     include('php/login.php');
   } else if ($_SESSION['isAdmin']) {

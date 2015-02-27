@@ -1,4 +1,5 @@
 <?php 
+include ('functions.php');
 
 class User {
   private $userId;
@@ -33,6 +34,18 @@ class User {
 
   public function isAdmin() {
     return $this->isAdmin;
+  }
+
+  public function checkDup($email, $db) {
+    $check_dup = db('select * from users where email = "'.$email.'"');
+      if($check_dup->num_rows == 1){
+        return True;
+    }
+    return False;
+  }
+
+  public function addToDatabase() {
+
   }
 }
 
