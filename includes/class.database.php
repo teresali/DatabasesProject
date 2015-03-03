@@ -1,5 +1,5 @@
 <?php
-include('config.php');
+include('../config.php');
 
 
 final class Database {
@@ -21,7 +21,6 @@ final class Database {
     if ($instance === null) {
       $instance = new Database();
     }
-    echo 'hey';
     return $instance;
   }
 

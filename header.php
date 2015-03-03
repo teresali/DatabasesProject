@@ -1,9 +1,5 @@
 <?php
-  include_once($_SERVER['DOCUMENT_ROOT'].'/absinth/config.php');
-
-  function __autoload($class_name) {
-    include (DOC_ROOT.'includes/class.'.strtolower($class_name).'.php');
-  }
+  include_once($_SERVER['DOCUMENT_ROOT'].'/config.php');
 ?>
 
 <!DOCTYPE HTML>
@@ -21,14 +17,13 @@
 
   <!-- CSS Files -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  <link href= "/absinth/css/style.css" rel="stylesheet" type="text/css">
+  <link href= <?php echo DOC_ROOT."/css/style.css" ?> rel="stylesheet" type="text/css">
 
   <!-- JS -->
   <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script> <!-- jQuery --> 
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> <!-- Bootstrap -->
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"> <!-- Font awesome -->
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script> <!-- angularJS -->
-  <script src = "/absinth/js/ajax-util.js"></script>
 
   <!-- Google Web Fonts -->
 

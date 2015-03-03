@@ -1,7 +1,6 @@
 <?php
   session_start();
-  echo DOC_ROOT;
-  include_once(DOC_ROOT.'/html/header.html');
+  include_once('../header.php');
   // include_once('functions.php');
  
   // function __autoload($class_name) {

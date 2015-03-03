@@ -12,7 +12,7 @@ define('DB_PASSWORD', '20a1776c');
 // define('DB_PASSWORD', '');
 
 
-define('DOC_ROOT', $_SERVER['DOCUMENT_ROOT'] . '/absinth');
+define('DOC_ROOT', $_SERVER['DOCUMENT_ROOT']);
 // include filepath 
 define('INCLUDE_DIR', $_SERVER['DOCUMENT_ROOT'] . '/include');
 
