@@ -1,6 +1,7 @@
 <?php 
+  include('../config.php');
   function __autoload($class_name) {
-    include 'php/class.' . strtolower($class_name) . '.php';
+    include '../includes/class.' . strtolower($class_name) . '.php';
   }
 
 ?>
@@ -39,43 +40,47 @@
 
   Hello World!
 <?php
-  $db = new DB();
+  $db = Database::Instance();
+  // $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-  $r = $db->query("SELECT * FROM test");
-  $data = $r->fetch_assoc();
-  alert $data["id"];
+
+  // $q = $db->query("INSERT INTO GroupsToAssess VALUES (1, 2, 3)");
+
+  // $r = $db->query("SELECT * FROM GroupsToAssess"); 
+  // $data = $r->fetch_assoc();
+  // echo $data['groupId'];
 
   // $a = new Assessment;
 
 
     // $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-    // if($db->error) {
-    //   echo("Connection Error");
-    // }
-    // echo("Connected to Database");
+    if($db->error) {
+      echo("Connection Error");
+    }
+    echo("Connected to Database");
 
-    // $q = "CREATE TABLE test (id INT(3))";
+    $q = "CREATE TABLE test (id INT(3))";
     
-    // $db->query($q);
+    $db->query($q);
 
-    // $sql = "INSERT I NTO test (id) VALUES (456)";
+    $sql = "INSERT INTO test (id) VALUES (456)";
 
-    // if ($db->query($sql) === TRUE) {
-    //   echo "New record created successfully";
-    // } else {
-    //   echo "Error: " . $sql . "<br>" . $db->error;
-    // }
+    if ($db->query($sql) === TRUE) {
+      echo "New record created successfully";
+    } else {
+      echo "Error: " . $sql . "<br>" . $db->error;
+    }
 
-    // $dataQ = "SELECT * FROM test";
+    $dataQ = "SELECT * FROM test";
 
-    // $result = $db->query($dataQ);
+    $result = $db->query($dataQ);
 
-    // $data = $result->fetch_assoc();
+    $data = $result->fetch_assoc();
 
-    // echo $data["id"];
+    echo $data["id"];
 
-    // echo("DONE")
+    echo("DONE")
 
 ?>
 

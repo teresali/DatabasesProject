@@ -1,7 +1,7 @@
 <?php
 
 class Report {
-  private $reportId;
+  private $id;
   private $groupId;
   private $projectId;
   private $title;
@@ -10,7 +10,7 @@ class Report {
   private $overallScore;
 
   function __construct($data) {
-    $this->reportId = $data['reportId'];
+    $this->id = $data['reportId'];
     $this->groupId = $data['groupId'];
     $this->projectId = $data['projectId'];
     $this->title = $data['title'];
@@ -19,7 +19,7 @@ class Report {
   }
 
   /* Getters for fields */
-  public function get_groupId() {
+  public function getGroupId() {
     return $this->groupId;
   }
 

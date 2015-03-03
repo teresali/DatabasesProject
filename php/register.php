@@ -1,7 +1,9 @@
 <?php
   session_start();
-  include('../html/header.html');
-
+  echo DOC_ROOT;
+  include_once(DOC_ROOT.'/html/header.html');
+  // include_once('functions.php');
+ 
   // function __autoload($class_name) {
   //   include ('includes/class.' . strtolower($class_name) . '.php');
   // }
@@ -10,7 +12,8 @@
   <div class="jumbotron">
     <div id="register-box" class="white-box container-fluid text-center">
       <img src="/absinth/img/logo-in.png" alt="Absinth">
-      <form class="form-horizontal form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+      <!-- <form class="form-horizontal form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>"> -->
+      <form class="form-horizontal form" method="post" action="form-handler.php">
         <div class="form-group">
           <label for="fName" class="col-sm-3 control-label">First Name</label>
           <div class="col-sm-9">
@@ -56,33 +59,36 @@
   
   <?php
 
-  $db = Database::Instance();
+  // $db = Database::Instance();
 
-  if(isset($_POST['submit'])) {
-    $fName = strip($_POST['fName']);
-    $lName = strip($_POST['lName']);
-    $email= strip($_POST['email']);
-    $pass = strip($_POST['password']);
-    $errors = "";
+  // if(isset($_POST['submit'])) {
+  //   echo('hit submit');
+  //   $args = array(
+  //     array('type'=>''        , 'val'=>$_POST['fName']),
+  //     array('type'=>''        , 'val'=>$_POST['lName']),
+  //     array('type'=>'email'   , 'val'=>$_POST['email']),
+  //     array('type'=>'password', 'val'=>$_POST['password'])
+  //   );
+  //   $output = strip_arr($args);
+  //   $arr = $output['arr'];
+  //   $errors = $output['errors'];
 
-    if ($fName != "" && $lName != "" && $email != "" && $pass != "") {
-      $hashed_pass = hash('sha256', $pass);
+  //   if (User::isDuplicate($email, $db)) {
+  //     array_push($errors, "Account already exists for this email. ");
+  //   }
 
-      if (User::checkDup($email, $db)) {
-        $errors .= "Account already exists for this email. ";
-      }
+  //   if (sizeof($errors) != 0) {
+  //     $hashed_pass = hash('sha256', $pass);
 
-      if ($errors == "") {
-        $q = "INSERT INTO users (`fName`, `lName`, `email`, `password`) VALUES ('".$fName."', '".$lName."', '".$email."', '".$hashed_pass."')";
-        echo 'INSERTED';
-      }
-      
-    // } else {
-    //   $errors .= ""
-    // }
-    }
+  //     $q = "INSERT INTO Users ('fName', 'lName', 'email', 'password') VALUES ({$arr['fName']}, {$arr['lName']}, {$$arr['email']}, {$arr['hashed_pass']})";
+  //     echo 'INSERTED';
 
+  //     $_SESSION['user'] = new User();
+  //     // navigate to dashboard
+  //     header('Location: ../index.php');
+  //   } else {
 
-  }
+  //   }
+  // }
 
   ?>
