@@ -1,6 +1,5 @@
 <?php 
   session_start();
-  // include_once('header.php');
 
   function __autoload($class_name) {
     include('includes/class.' . strtolower($class_name) . '.php');
