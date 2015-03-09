@@ -1,5 +1,7 @@
 <?php 
-include ('functions.php');
+session_start();
+include_once($_SERVER['DOCUMENT_ROOT'].'/includes/class.database.php');
+
 
 class User {
   private $id;
@@ -35,21 +37,39 @@ class User {
   public function getGroupId() {
     return $this->groupId;
   }
+  public function setGroupId($id) {
+    $this->groupId = $id;
+  }
   public function isAdmin() {
     return $this->isAdmin;
   }
 
   public function isDuplicate($email, $db) {
-    $check_dup = db('select * from users where email = "'.$email.'"');
-      if($check_dup->num_rows == 1){
-        return True;
+    $check_dup = $db->query("SELECT * FROM users WHERE email = '{$email}'");
+    if ($check_dup->num_rows == 1) {
+      return True;
     }
     return False;
   }
 
-  public function newUser($data) {
-    
+  public function addUser($data, $db) {
+    $hashed_pass = hash('sha256', $data['password']);
+    // add user info to database
+    $q = "INSERT INTO users (fName, lName, email, password, isAdmin) VALUES ('{$data['fName']}', '{$data['lName']}', '{$data['email']}', '{$hashed_pass}', {$data['isAdmin']})";
+    $db->query($q);
+    // //set user session variable 
+    $id = $db->getMysqli()->insert_id;
+    $q = "SELECT * from users WHERE userId = {$id}";
+    $r = $db->query($q);
+    if ($r) {
+      $data = $r->fetch_assoc();
+      $_SESSION['user'] = new User($data);
+    } else {
+      echo 'error';
+    }
   }
+
+
 }
 
 

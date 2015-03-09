@@ -1,42 +1,37 @@
 <?php
-  // echo get_cwd();
-  include_once($_SERVER["DOCUMENT_ROOT"].'/php/functions.php');
-
-  function __autoload($class_name) {
-    include ('includes/class.' . strtolower($class_name) . '.php');
-  }
-  echo 'hello';
+  include_once($_SERVER['DOCUMENT_ROOT'].'/config.php');
+  // // echo DOC_ROOT.'/php/functions.php';
+  include_once(DOC_ROOT.'/php/functions.php');
   
-  // $db = Database::Instance();
-  echo 'whatup';
+  function __autoload($class_name) {
+    include($_SERVER['DOCUMENT_ROOT'] . '/includes/class.' . strtolower($class_name) . '.php');
+  }
+
+  // session_start();
+  
+  $DB = Database::Instance();
 
   if(isset($_POST['submit'])) {
-    echo('hit submit');
     $args = array(
-      array('type'=>''        , 'val'=>$_POST['fName']),
-      array('type'=>''        , 'val'=>$_POST['lName']),
-      array('type'=>'email'   , 'val'=>$_POST['email']),
-      array('type'=>'password', 'val'=>$_POST['password'])
+      'fName'     => $_POST['fName'],
+      'lName'     => $_POST['lName'],
+      'email'     => $_POST['email'],
+      'password'  => $_POST['password'],
+      'isAdmin'   => 0  // user is not an admin
     );
-    echo $args;
     $output = strip_arr($args);
-    $arr = $output['arr'];
-    echo $arr['email'];
+    $data = $output['arr'];
     $errors = $output['errors'];
+    $email = $data['email'];
 
-    if (User::isDuplicate($email, $db)) {
-      array_push($errors, "Account already exists for this email. ");
+    if(User::isDuplicate($email, $DB)) {
+      $errors = 'Account already exists for this email.';
     }
+
     echo $errors;
-    if (sizeof($errors) != 0) {
-      $hashed_pass = hash('sha256', $pass);
-
-      $q = "INSERT INTO Users ('fName', 'lName', 'email', 'password') VALUES ({$arr['fName']}, {$arr['lName']}, {$$arr['email']}, {$arr['hashed_pass']})";
-      echo 'INSERTED';
-
-      $_SESSION['user'] = new User();
-      // navigate to dashboard
-      header('Location: ../index.php');
+    if ($errors == '') {
+      User::addUser($data, $DB);
+      header("Location: ../index.php");
     } else {
 
     }

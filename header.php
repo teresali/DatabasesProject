@@ -1,5 +1,9 @@
 <?php
   include_once($_SERVER['DOCUMENT_ROOT'].'/config.php');
+
+  function __autoload($class_name) {
+    include($_SERVER['DOCUMENT_ROOT'] . '/includes/class.' . strtolower($class_name) . '.php');
+  }
 ?>
 
 <!DOCTYPE HTML>
@@ -17,7 +21,7 @@
 
   <!-- CSS Files -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  <link href= <?php echo DOC_ROOT."/css/style.css" ?> rel="stylesheet" type="text/css">
+  <link href="css/style.css" rel="stylesheet" type="text/css">
 
   <!-- JS -->
   <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script> <!-- jQuery --> 

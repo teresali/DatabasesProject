@@ -1,13 +1,11 @@
 <?php 
   session_start();
-  include_once('header.php');
+  // include_once('header.php');
 
   function __autoload($class_name) {
     include('includes/class.' . strtolower($class_name) . '.php');
   }
 ?>
- 
-<body>
 
   <?php 
 
@@ -22,18 +20,14 @@
     //   echo 'Somethings wrong..';
     // }
 
-
     if (!isset($_SESSION['user'])) {
       include('php/login.php');
     } else if ($_SESSION['isAdmin']) {
       include('dashboard/admin-dashboard.php');
     }else {
-      include('dashboard/dashboard.php');
+      include('dashboard/index.php');
     }
   ?>  
-  
-</body>
-</html>
 
 <script>
   $(document).ready(function () {

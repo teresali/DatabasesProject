@@ -1,4 +1,5 @@
 <?php
+
 define('DB_HOST', 'eu-cdbr-azure-north-b.cloudapp.net');
 // define('DB_HOST', 'localhost');
 // database name
