@@ -1,11 +1,11 @@
 <?php
   session_start();
-  // include_once($_SERVER['DOCUMENT_ROOT'].'/config.php');
-  // include_once(DOC_ROOT.'/php/functions.php');
+  include_once($_SERVER['DOCUMENT_ROOT'].'/config.php');
+  include_once(DOC_ROOT.'/php/functions.php');
  
-  // function __autoload($class_name) {
-  //   include ($_SERVER['DOCUMENT_ROOT'].'/includes/class.' . strtolower($class_name) . '.php');
-  // }
+  function __autoload($class_name) {
+    include ($_SERVER['DOCUMENT_ROOT'].'/includes/class.' . strtolower($class_name) . '.php');
+  }
 ?>
 <!DOCTYPE HTML>
 <html lang="en">

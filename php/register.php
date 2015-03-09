@@ -78,19 +78,18 @@
         </div>
         <div class="form-group">
           <div class="col-sm-9 col-sm-offset-3">
-            <button id="submit" type="submit" class="btn btn-primary btn-block" name="submit">Sign Up</button>
+            <button type="submit" class="btn btn-primary btn-block" name="submit">Sign Up</button>
           </div>
         </div>
       </form>
     </div>
   </div>
 </body>  
+
   <?php
     $DB = Database::Instance();
-    console.log('woop');
-
+    
     if(isset($_POST['submit'])) {
-      console.log('in here');
       $args = array(
         'fName'     => $_POST['fName'],
         'lName'     => $_POST['lName'],
@@ -107,7 +106,6 @@
         $errors = 'Account already exists for this email.';
       }
 
-      console.log($errors);
       if ($errors == '') {
         User::addUser($data, $DB);
         header("Location: ../index.php");

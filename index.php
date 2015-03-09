@@ -23,7 +23,7 @@
       include('php/login.php');
     } else if ($_SESSION['isAdmin']) {
       include('dashboard/admin-dashboard.php');
-    }else {
+    } else {
       include('dashboard/index.php');
     }
   ?>  
