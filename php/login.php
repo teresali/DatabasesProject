@@ -2,10 +2,29 @@
   session_start();
   include_once($_SERVER['DOCUMENT_ROOT'].'/config.php');
   include_once(DOC_ROOT.'/php/functions.php');
+  include_once(DOC_ROOT.'/includes/class.database.php');
+  include_once(DOC_ROOT.'/includes/class.user.php');
  
-  function __autoload($class_name) {
-    include ($_SERVER['DOCUMENT_ROOT'].'/includes/class.' . strtolower($class_name) . '.php');
+  // function __autoload($class_name) {
+  //   include($_SERVER['DOCUMENT_ROOT'].'/includes/class.' . strtolower($class_name) . '.php');
+  // }
+
+  $DB = Database::Instance();
+
+  if(isset($_POST['submit'])) {
+    $args = array(
+        'email'     => $_POST['email'],
+        'password'  => $_POST['password'],
+    );
+    $output = strip_arr($args);
+    $data = $output['arr'];
+    $errors = $output['errors'];
+
+    if($errors == '') {
+
+    }
   }
+
 ?>
 <!DOCTYPE HTML>
 <html lang="en">
@@ -42,7 +61,9 @@
   <div class="jumbotron">
     <div id="login-box" class="white-box container-fluid text-center">
       <img src="img/logo-in.png" alt="Absinth">
-      <form class="form-horizontal form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+      <div class="errors"> <?php if($errors) { echo $errors; } ?> </div>
+      <!-- <form class="form-horizontal form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>"> -->
+      <form class="form-horizontal form" method="post" action="php/login.php">
         <div class="form-group">
           <input id="email" class="form-control" type="email" placeholder="Email" name="email" required>
         </div>
@@ -59,9 +80,3 @@
 </body>
 
 </html>
-
-<?php
-  
-
-
-?>

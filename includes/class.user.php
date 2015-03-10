@@ -22,6 +22,9 @@ class User {
   }
 
   /* Getters for private fields */
+  public function getUserId() {
+    return $this->userId;
+  }
   public function getFname() {
     return $this->fName;
   }
@@ -59,16 +62,9 @@ class User {
     $db->query($q);
     // //set user session variable 
     $id = $db->getMysqli()->insert_id;
-    $q = "SELECT * from users WHERE userId = {$id}";
-    $r = $db->query($q);
-    if ($r) {
-      $data = $r->fetch_assoc();
-      $_SESSION['user'] = new User($data);
-    } else {
-      echo 'error';
-    }
+    $data['userId'] = $id;
+    $_SESSION['user'] = new User($data);
   }
-
 
 }
 

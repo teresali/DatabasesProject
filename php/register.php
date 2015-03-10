@@ -6,6 +6,36 @@
   function __autoload($class_name) {
     include ($_SERVER['DOCUMENT_ROOT'].'/includes/class.' . strtolower($class_name) . '.php');
   }
+
+
+  $DB = Database::Instance();
+  
+  if(isset($_POST['submit'])) {
+    $args = array(
+      'fName'     => $_POST['fName'],
+      'lName'     => $_POST['lName'],
+      'email'     => $_POST['email'],
+      'password'  => $_POST['password'],
+      'isAdmin'   => 0  // user is not an admin
+    );
+    $output = strip_arr($args);
+    $data = $output['arr'];
+    $errors = $output['errors'];
+    $email = $data['email'];
+
+    if(User::isDuplicate($email, $DB)) {
+      $errors = 'Account already exists for this email.';
+    }
+
+    if($errors == '') {
+      User::addUser($data, $DB);
+      header("Location: ../index.php");
+      exit();
+    } else {
+
+    }
+  }
+
 ?>
 <!DOCTYPE HTML>
 <html lang="en">
@@ -41,8 +71,8 @@
   <div class="jumbotron">
     <div id="register-box" class="white-box container-fluid text-center">
       <img src="../img/logo-in.png" alt="Absinth">
+      <div class="errors"> <?php if($errors) { echo $errors; } ?> </div>
       <form class="form-horizontal form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-      <!-- <form class="form-horizontal form" method="post" action="form-handler.php"> -->
         <div class="form-group">
           <label for="fName" class="col-sm-3 control-label">First Name</label>
           <div class="col-sm-9">
@@ -85,33 +115,3 @@
     </div>
   </div>
 </body>  
-
-  <?php
-    $DB = Database::Instance();
-    
-    if(isset($_POST['submit'])) {
-      $args = array(
-        'fName'     => $_POST['fName'],
-        'lName'     => $_POST['lName'],
-        'email'     => $_POST['email'],
-        'password'  => $_POST['password'],
-        'isAdmin'   => 0  // user is not an admin
-      );
-      $output = strip_arr($args);
-      $data = $output['arr'];
-      $errors = $output['errors'];
-      $email = $data['email'];
-
-      if(User::isDuplicate($email, $DB)) {
-        $errors = 'Account already exists for this email.';
-      }
-
-      if ($errors == '') {
-        User::addUser($data, $DB);
-        header("Location: ../index.php");
-        exit();
-      } else {
-
-      }
-    }
-  ?>

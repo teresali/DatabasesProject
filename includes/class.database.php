@@ -31,21 +31,21 @@ final class Database {
     return $this->mysqli;
   }
 
-  /* Performs a query on the database
-      @params: string
-  */
-  public function query($query) {
-    if (isset($this->mysqli) && is_string($query)) {
-      return $this->mysqli->query($query);
-    }
-  }
-
   /* Returns an escaped string 
       @params: string
   */
   public function escape_string($input) {
     if (isset($this->mysqli)) {
       return $this->mysqli->escape_string($input);
+    }
+  }
+
+  /* Performs a query on the database
+      @params: string
+  */
+  public function query($query) {
+    if (isset($this->mysqli) && is_string($query)) {
+      return $this->mysqli->query($query);
     }
   }
 

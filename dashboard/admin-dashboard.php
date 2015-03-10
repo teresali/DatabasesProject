@@ -39,7 +39,7 @@ session_start();
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <?php if(isset($_SESSION['user'])) { echo $_SESSION['user']->getFname(); } ?>  
+                        Teresa  
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
@@ -75,7 +75,7 @@ session_start();
                         <a href="table.html"><i class="fa fa-table"></i> Forum</a>
                     </li>
                     <li>
-                        <a href="dashboard/form.html"><i class="fa fa-edit"></i> Forms</a>
+                        <a href="form.html"><i class="fa fa-edit"></i> Forms</a>
                     </li>
                 </ul>
 
@@ -171,31 +171,31 @@ session_start();
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        <tr class="odd">
                                             <td>Project 1</td>
                                             <td>January 1, 2015 23:59pm</td>
-                                            <td>78</td>
+                                            <td class="center">78</td>
                                             <td>82</td>
                                             <td>Graded</td>
                                         </tr>
-                                        <tr>
+                                        <tr class="even">
                                             <td>Project 2</td>
                                             <td>January 1, 2015 23:59pm</td>
-                                            <td>78</td>
+                                            <td class="center">78</td>
                                             <td>82</td>
                                             <td>Graded</td>
                                         </tr>
-                                        <tr>
+                                        <tr class="odd">
                                             <td>Project 3</td>
                                             <td>January 1, 2015 23:59pm</td>
-                                            <td>78</td>
+                                            <td class="center">78</td>
                                             <td>82</td>
                                             <td>Graded</td>
                                         </tr>
-                                        <tr>
+                                        <tr class="even">
                                             <td>Project 4</td>
                                             <td>January 1, 2015 23:59pm</td>
-                                            <td>78</td>
+                                            <td class="center">78</td>
                                             <td>82</td>
                                             <td>Graded</td>
                                         </tr>
