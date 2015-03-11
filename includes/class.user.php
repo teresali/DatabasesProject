@@ -17,6 +17,7 @@ class User {
     $this->fName = $data['fName'];
     $this->lName = $data['lName'];
     $this->email = $data['email'];
+    echo $data['groupId'];
     $this->groupId = $data['groupId'];
     $this->isAdmin = $data['isAdmin'];
   }
@@ -58,11 +59,13 @@ class User {
   public function addUser($data, $db) {
     $hashed_pass = hash('sha256', $data['password']);
     // add user info to database
-    $q = "INSERT INTO users (fName, lName, email, password, isAdmin) VALUES ('{$data['fName']}', '{$data['lName']}', '{$data['email']}', '{$hashed_pass}', {$data['isAdmin']})";
+    $q = "INSERT INTO users (fName, lName, email, password, groupId, isAdmin) VALUES ('{$data['fName']}', '{$data['lName']}', '{$data['email']}', '{$hashed_pass}', 1, {$data['isAdmin']})";
     $db->query($q);
     // //set user session variable 
     $id = $db->getMysqli()->insert_id;
     $data['userId'] = $id;
+    // to be removed!
+    $data['groupId'] = 1;
     $_SESSION['user'] = new User($data);
   }
 

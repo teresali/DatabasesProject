@@ -34,6 +34,13 @@ class Report {
   public function getScore() {
     return $this->overallScore;
   }
+
+  public function getScoreForUser($projectId, $groupId) {
+    $q = "SELECT avgScore from reports WHERE groupId = {$groupId} AND projectId = {$projectId}";
+    $result = $db->query($q);
+    $data = $result->fetch_assoc();
+    return $data['avgScore'];
+  }
 }
 
 ?>

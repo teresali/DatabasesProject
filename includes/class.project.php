@@ -1,42 +1,38 @@
 <?php 
+session_start();
 
 class Project {
-  private $id;
-  private $title;
+  private $projectId;
+  private $projectTitle;
   private $dueDate;
-  private $desc;
+  private $description;
   private $criteria(5);
 
   public function __construct($data) {
-
+    echo 'in construct';
+    $this->projectId = $data['projectId'];
+    $this->projectTitle = $data['projectTitle'];
+    $this->dueDate = $data['dueDate'];
+    $this->description = $data['projectDescription'];
+    $this->criteria = array($data['criteria1'], $data['criteria2'], $data['criteria3'], $data['criteria4'], $data['criteria5']);
   }
 
-
-  public function getProjects($db, $groupId) {
-    $q = "SELECT projectId, projectTitle, dueDate from Projects";
-    $result = $db->query($q);
-    $projects = array();
-
-    while($p =& $result->fetch_assoc()) {
-      $projectId = $p['projectId'];
-      $projectTitle = $p['projectTitle'];
-      $dueDate = $p['dueDate'];
-      $mean = self::calculateMean($db, $projectId);
-      $score = self::getScoreForUser($db, $projectId, $groupId);
-      
-    }
+  public function test() {
+    echo 'hi';
   }
 
   public function calculateMean($db, $projectId) {
-    $q = "SELECT AVG(overallScore) as avgScore from reports WHERE projectId = ".$projectId;
-    $result = $db->query($q);
-    $data = $result->fetch_assoc();
-    return $data['avgScore'];
+    $q = "SELECT ROUND(AVG(avgScore), 2) as mean from reports WHERE projectId = {$projectId}";
+    $r = $DB->query($q);
+    $data = $r->fetch_assoc();
+    return $data['mean'];
   }
 
   public function getScoreForUser($db, $projectId, $groupId) {
-    $q = "SELECT overallScore from reports WHERE groupId = {$groupId} AND projectId = {$projectId}";
-    $data = $db->query($q);
+    $q = "SELECT avgScore from reports WHERE groupId = {$groupId} AND projectId = {$projectId}";
+    $r = $DB->query($q);
+    $data = $r->fetch_assoc();
+    return $data['avgScore'];
   }
 
 

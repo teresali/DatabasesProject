@@ -389,6 +389,7 @@ background-color: #FFF;
     margin-right:10px;
 }
 
+
 /*----------------------------------------------
     UI ELEMENTS STYLES     
 ------------------------------------------------*/
@@ -436,4 +437,31 @@ font-size: 19px;
 }
 }
 
+/** CUSTOM CSS */
+.navbar-right {
+    margin-right:5px;
+}
 
+.col-md-12 {
+    height: 80px;
+}
+
+.table .borderless thead>tr>th {
+   vertical-align: bottom;
+   border-bottom: 0px solid hsl(0, 0%, 87%);
+}
+
+.table .borderless thead>tr>th,.table tbody>tr>th,.table tfoot>tr>th,.table thead>tr>td,.table tbody>tr>td,.table tfoot>tr>td{
+   padding:4px;
+   line-height:1.428571429;
+   vertical-align:top;
+   border-top:0px solid #ddd
+}
+
+.set-size {
+    height: 218px;
+}
+
+.table>thead>tr>th {
+    border-bottom: none;
+}

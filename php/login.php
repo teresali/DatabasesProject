@@ -2,12 +2,10 @@
   session_start();
   include_once($_SERVER['DOCUMENT_ROOT'].'/config.php');
   include_once(DOC_ROOT.'/php/functions.php');
-  include_once(DOC_ROOT.'/includes/class.database.php');
-  include_once(DOC_ROOT.'/includes/class.user.php');
  
-  // function __autoload($class_name) {
-  //   include($_SERVER['DOCUMENT_ROOT'].'/includes/class.' . strtolower($class_name) . '.php');
-  // }
+  function __autoload($class_name) {
+    include($_SERVER['DOCUMENT_ROOT'].'/includes/class.' . strtolower($class_name) . '.php');
+  }
 
   $DB = Database::Instance();
 
@@ -41,7 +39,7 @@
 
   <!-- CSS Files -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  <link href="css/style.css" rel="stylesheet" type="text/css">
+  <link href="../css/style.css" rel="stylesheet" type="text/css">
 
   <!-- JS -->
   <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script> <!-- jQuery --> 
@@ -60,7 +58,7 @@
 
   <div class="jumbotron">
     <div id="login-box" class="white-box container-fluid text-center">
-      <img src="img/logo-in.png" alt="Absinth">
+      <img src="../img/logo-in.png" alt="Absinth">
       <div class="errors"> <?php if($errors) { echo $errors; } ?> </div>
       <!-- <form class="form-horizontal form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>"> -->
       <form class="form-horizontal form" method="post" action="php/login.php">
@@ -73,7 +71,7 @@
         <div class="form-group">
           <button id="submit" type="submit" class="btn btn-primary btn-block" name="submit">Sign in</button>
         </div>
-          Not a Member? <a href="php/register.php">Register Here</a>
+          Not a Member? <a href="register.php">Register Here</a>
       </form>
     </div>
   </div>
