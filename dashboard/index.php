@@ -48,25 +48,15 @@ include('header.php');
                                                     $projectTitle = $p['projectTitle'];
                                                     $dueDate = $p['dueDate'];
                                                     // have to change once configure admin
-                                                    $groupId = 1;
-                                                  
-                                                    $q = "SELECT ROUND(AVG(avgScore), 2) as mean from reports WHERE projectId = {$projectId}";
-                                                    $r = $DB->query($q);
-                                                    $data = $r->fetch_assoc();
-                                                    $mean = $data['mean'];
-                                                    // $mean = Project::calculateMean($DB, $projectId);
-
-                                                    $q = "SELECT avgScore from reports WHERE groupId = {$groupId} AND projectId = {$projectId}";
-                                                    $r = $DB->query($q);
-                                                    $data = $r->fetch_assoc();
-                                                    $score = $data['avgScore'];
-                                                    // $score = Project::getScoreForUser($DB, $projectId, $groupId);
+                                                    $groupId = 1;                                               
+                                                    $mean = Project::calculateMean($DB, $projectId);
+                                                    $score = Project::getScoreForUser($DB, $projectId, $groupId);
 
                                                     echo "<tr>";
                                                     echo "<td><a href=report.php?projectId={$projectId}&groupId={$groupId}>{$projectTitle}</a></td>";
                                                     echo "<td>{$dueDate}</td>";
-                                                    echo "<td>12</td>";
-                                                    echo "<td>12</td>";
+                                                    echo "<td>{$score}</td>";
+                                                    echo "<td>{$mean}</td>";
                                                     echo "<td>Graded</td>";
                                                     echo "</tr>";
                                                 }

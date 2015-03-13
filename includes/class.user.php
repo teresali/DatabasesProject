@@ -1,10 +1,8 @@
 <?php 
 session_start();
-include_once($_SERVER['DOCUMENT_ROOT'].'/includes/class.database.php');
-
 
 class User {
-  private $id;
+  private $userId;
   private $fName;
   private $lName;
   private $email;
@@ -17,7 +15,6 @@ class User {
     $this->fName = $data['fName'];
     $this->lName = $data['lName'];
     $this->email = $data['email'];
-    echo $data['groupId'];
     $this->groupId = $data['groupId'];
     $this->isAdmin = $data['isAdmin'];
   }

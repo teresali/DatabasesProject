@@ -22,25 +22,24 @@ class Report {
   public function getGroupId() {
     return $this->groupId;
   }
-
   public function getProjectId() {
     return $this->projectId;
   }
-
   public function getTitle() {
     return $this->title;
   }
-
   public function getScore() {
     return $this->overallScore;
   }
 
-  public function getScoreForUser($projectId, $groupId) {
-    $q = "SELECT avgScore from reports WHERE groupId = {$groupId} AND projectId = {$projectId}";
-    $result = $db->query($q);
-    $data = $result->fetch_assoc();
-    return $data['avgScore'];
+
+  public function addReport($data, $db) {
+    $date = date('Y-m-d H:i:s');
+    $q = "INSERT INTO reports (groupId, projectId, projectTitle, dateSubmitted, textContent) VALUES ('{$data['groupId']}', '{$data['projectId']}', '{$data['projectTitle']}', '{$date}', 1, {$data['textContent']})";
+    $db->query($q);
   }
+
+
 }
 
 ?>

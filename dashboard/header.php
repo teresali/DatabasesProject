@@ -62,8 +62,8 @@
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
-                    <li>
-                        <a class="active-menu" href="index.php"><i class="fa fa-dashboard"></i> Projects</a>
+                    <li class="active-menu">
+                        <a href="index.php"><i class="fa fa-dashboard"></i> Projects</a>
                     </li>
                     <li>
                         <a href="assessments.php"><i class="fa fa-edit"></i> My Assessments</a>
