@@ -23,12 +23,19 @@
     $result = $DB->query("SELECT * from users where email='$email'"); 
 
     if ($result->num_rows == 1) {
-      $row = $result->fetch_assoc();
-      $hash = $row['password'];
+      $user = $result->fetch_assoc();
+      $hash = $user['password'];
       if (password_verify($password, $hash)){
         $_SESSION['user']=$email; // Initializing Session
-        header("Location: dashboard/index.php"); // Redirecting To Other 
+        if ($user->isAdmin == 1) {
+          $_SESSION['isAdmin'] = 1;
+          header('Location: dashboard/admin-index.php');
+        } else {
+          $_SESSION['isAdmin'] = 0;
+          header("Location: dashboard/index.php"); // Redirecting To Other 
+        }
         //different location for admin?
+
       } else {
         $error = "Username or Password is invalid";  
       }
