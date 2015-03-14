@@ -10,14 +10,38 @@
   $DB = Database::Instance();
 
   if(isset($_POST['submit'])) {
+    /*
     $args = array(
         'email'     => $_POST['email'],
         'password'  => $_POST['password'],
     );
+    */
+    
+    $email=$_POST['email'];
+    $password=$_POST['password'];
+
+    $result = $DB->query("SELECT * from users where email='$email'"); 
+
+    if ($result->num_rows == 1) {
+      $row = $result->fetch_assoc();
+      $hash = $row['password'];
+      if (password_verify($password, $hash)){
+        $_SESSION['user']=$email; // Initializing Session
+        header("Location: dashboard/index.php"); // Redirecting To Other 
+        //different location for admin?
+      } else {
+        $error = "Username or Password is invalid";  
+      }
+    } else {
+      $error = "Username or Password is invalid";
+    }
+    //mysql_close($connection); // Closing Connection
+  
+/*
     $output = strip_arr($args);
     $data = $output['arr'];
     $errors = $output['errors'];
-
+*/
     if($errors == '') {
 
     }
