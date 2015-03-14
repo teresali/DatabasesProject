@@ -7,8 +7,6 @@
     include($_SERVER['DOCUMENT_ROOT'].'/includes/class.' . strtolower($class_name) . '.php');
   }
 
-  $DB = Database::Instance();
-
   if(isset($_POST['submit'])) {
     /*
     $args = array(
@@ -16,33 +14,37 @@
         'password'  => $_POST['password'],
     );
     */
-    
-    $email=$_POST['email'];
-    $password=$_POST['password'];
-
-    $result = $DB->query("SELECT * from users where email='$email'"); 
-
-    if ($result->num_rows == 1) {
-      $user = $result->fetch_assoc();
-      $hash = $user['password'];
-      if (password_verify($password, $hash)){
-        $_SESSION['user']=$email; // Initializing Session
-        if ($user->isAdmin == 1) {
-          $_SESSION['isAdmin'] = 1;
-          header('Location: dashboard/admin-index.php');
-        } else {
-          $_SESSION['isAdmin'] = 0;
-          header("Location: dashboard/index.php"); // Redirecting To Other 
-        }
-        //different location for admin?
-
-      } else {
-        $error = "Username or Password is invalid";  
-      }
+    if (empty($_POST['email']) || empty($_POST['password'])) {
+      $error = "Username or Password is invalid"; //Username or Password not provided
     } else {
-      $error = "Username or Password is invalid";
+      $email=$_POST['email'];
+      $password=$_POST['password'];
+
+      $DB = Database::Instance();
+
+      $result = $DB->query("SELECT * from users where email='$email'"); 
+
+      if ($result->num_rows == 1) {
+        $user = $result->fetch_assoc();
+        $hash = $user['password'];
+        if (password_verify($password, $hash)){
+          $_SESSION['user']=$email; 
+          if ($user->isAdmin == 1) {
+            $_SESSION['isAdmin'] = 1;
+            header('Location: dashboard/admin-index.php');
+          } else {
+            $_SESSION['isAdmin'] = 0;
+            header("Location: dashboard/index.php"); 
+          }
+
+        } else {
+          $error = "Username or Password is invalid";  // incorrect password
+        }
+      } else {
+        $error = "Username or Password is invalid"; // Email not associated with any user
+      }
+      //mysql_close($connection); // Closing Connection
     }
-    //mysql_close($connection); // Closing Connection
   
 /*
     $output = strip_arr($args);
