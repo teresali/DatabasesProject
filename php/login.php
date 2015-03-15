@@ -8,52 +8,45 @@
   }
 
   if(isset($_POST['submit'])) {
-    /*
-    $args = array(
-        'email'     => $_POST['email'],
-        'password'  => $_POST['password'],
-    );
-    */
+
     if (empty($_POST['email']) || empty($_POST['password'])) {
-      $error = "Username or Password is invalid"; //Username or Password not provided
+      $errors = "Username or Password is invalid"; //Username or Password not provided
     } else {
       $email=$_POST['email'];
       $password=$_POST['password'];
-
       $DB = Database::Instance();
 
-      $result = $DB->query("SELECT * from users where email='$email'"); 
+
+      $result = $DB->query("SELECT * from users where email='{$email}'"); 
 
       if ($result->num_rows == 1) {
-        $user = $result->fetch_assoc();
-        $hash = $user['password'];
-        if (password_verify($password, $hash)){
-          $_SESSION['user']=$email; 
+        $data = $result->fetch_assoc();
+
+        $entered_password = hash('sha256', $password);
+        $stored_password = $data['password'];
+        
+        if ($entered_password == $stored_password){
+
+          $_SESSION['user'] = new User($data);
+
           if ($user->isAdmin == 1) {
             $_SESSION['isAdmin'] = 1;
-            header('Location: dashboard/admin-index.php');
+            
           } else {
             $_SESSION['isAdmin'] = 0;
-            header("Location: dashboard/index.php"); 
           }
+          header('Location: ../index.php');
+          exit(); 
 
         } else {
-          $error = "Username or Password is invalid";  // incorrect password
+          $errors = "Username or Password is invalid";  // Incorrect password
         }
       } else {
-        $error = "Username or Password is invalid"; // Email not associated with any user
+        $errors = "Username or Password is invalid"; // Email not associated with any user
       }
-      //mysql_close($connection); // Closing Connection
-    }
-  
-/*
-    $output = strip_arr($args);
-    $data = $output['arr'];
-    $errors = $output['errors'];
-*/
-    if($errors == '') {
 
     }
+  
   }
 
 ?>
@@ -93,8 +86,7 @@
     <div id="login-box" class="white-box container-fluid text-center">
       <img src="../img/logo-in.png" alt="Absinth">
       <div class="errors"> <?php if($errors) { echo $errors; } ?> </div>
-      <!-- <form class="form-horizontal form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>"> -->
-      <form class="form-horizontal form" method="post" action="php/login.php">
+      <form class="form-horizontal form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>"> 
         <div class="form-group">
           <input id="email" class="form-control" type="email" placeholder="Email" name="email" required>
         </div>
