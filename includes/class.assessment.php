@@ -10,26 +10,18 @@ class Assessment{
     $this->reportId = $this['reportId'];
   }
 
-  /* Getters for fields */
-  public function getGroupId() {
-    return $this->groupId;
-  }
 
-  /* Update total score 
-      @params: int
-  */
-  public function setTotalScore($newScore) {
-    $this->totalScore = $newScore;
-  }
-
-  /* Submit an assessment
-      @params: int, int, int, int, int
-  */
-  public function submit($s1, $s2, $s3, $s4, $s5) {
-    var total = $s1 + $s2 + $s3 + $s4 + $s5;
-    # set the score array
-
-    # update the database
+  public function scoreType($mean, $std, $val) {
+    // good score
+    if($val > $mean + $std) {
+      return 0;
+    // below average score
+    } else if ($val < $mean - $std) {
+      return 2;
+    // average score
+    } else {
+      return 1;
+    }
   }
 }
 

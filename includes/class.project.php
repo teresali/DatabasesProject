@@ -42,6 +42,21 @@ class Project {
     return $data['mean'];
   }
 
+  public function calculateStdDev($db, $projectId) {
+    $q = "SELECT ROUND(STDDEV_SAMP(score1 + score2 + score3 + score4 + score5), 2) as stddev from assessments WHERE projectId = {$projectId}";
+    $r = $db->query($q);
+    $data = $r->fetch_assoc();
+    return $data['stddev'];
+  }
+
+  public function isDuplicate($email, $db) {
+    $check_dup = $db->query("SELECT * FROM projects WHERE projectTitle = '{$title}'");
+    if ($check_dup->num_rows == 1) {
+      return True;
+    }
+    return False;
+  }
+
   public function getScoreForUser($db, $projectId, $groupId) {
     $q = "SELECT ROUND(AVG(score1),2) as s1, ROUND(AVG(score2),2) as s2, ROUND(AVG(score3),2) as s3, ROUND(AVG(score4),2) as s4, ROUND(AVG(score5),2) as s5, ROUND(AVG(score1 + score2 + score3 + score4 + score5), 2) as score from assessments WHERE groupAssessed = {$groupId} AND projectId = {$projectId}";
     $r = $db->query($q);
@@ -72,14 +87,6 @@ class Project {
       }
     }
     return NULL;
-  }
-   
-  public function isDuplicate($email, $db) {
-    $check_dup = $db->query("SELECT * FROM projects WHERE projectTitle = '{$title}'");
-    if ($check_dup->num_rows == 1) {
-      return True;
-    }
-    return False;
   }
     
   public function addProject($data, $db) {

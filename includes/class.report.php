@@ -26,10 +26,6 @@ class Report {
     return $this->title;
   }
 
-  public function test() {
-    echo "YOOOOOoooooooojsodjfjsadfjsldkjflsdjflsdjfalksdjfaljsdlfjsd";
-  }
-
 
   public function exists($groupId, $projectId, $db) {
     $q = "SELECT * FROM reports 
@@ -56,10 +52,8 @@ class Report {
     $db->query($q);
   }
 
-  public function calculateRank($groupdId, $projectId, $db) {
-    // $q = "SELECT AVG(score1), AVG(score2), AVG(score3), AVG(score4), AVG(score5), @curRank := @curRank + 1 as score1, score2, score3, score4, score5, rank from assessments, (SELECT @curRank := 0) r where groupId={$groupId and projectId={$projectId} order by (score1+score2+score3+score4+score5)";
-    // echo $q;
-
+  public function getAssessments($projectId, $groupdId, $db) {
+    $q = "SELECT * from assessments where groupId={$groupId} and projectId={$projectId}";
   }
 
 }

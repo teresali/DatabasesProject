@@ -78,6 +78,10 @@
                   <td class="col-md-9"><?php echo $curr->getDueDate(); ?></td>
                 </tr>
                 <tr>
+                  <td class="col-md-3">Group Members:</td>
+                  <td class="col-md-9"><?php echo User::getGroupMembers($DB, $groupId, $projectId); ?></td>
+                </tr>
+                <tr>
                   <td class="col-md-4">Late Submissions:</td>
                   <td class="col-md-8">Not Accepted</td>
                 </tr>
@@ -99,7 +103,7 @@
           <div class="panel-heading">
             Scores from Peer Assessments
             <div class="pull-right">
-              <a href="#">View Assessments</a>
+              <a href='<?php echo "view-assessments.php?projectId={$projectId}&groupId={$groupId}" ?>'>View Assessments</a>
             </div>
           </div>
           <div class="panel-body" style="height: 218px;">
@@ -155,17 +159,19 @@
             <thead>
               <tr>
                 <th class="col-md-2">Mean</th>
+                <th class="col-md-2">Standard Dev</th>
                 <th class="col-md-3">Aggregated Rank</th>
               </tr>
           </thead>
             <tbody>
               <tr>
                 <td><?php echo Project::calculateMean($DB, $projectId); ?></td>
+                <td><?php echo Project::calculateStdDev($DB, $projectId); ?></td>
                 <td>
                   <?php 
                     $rank = Project::getRankForUser($DB, $projectId, $groupId);
                     if($rank != NULL) {
-                      echo "{$rank[0]} out of {$rank[1]}";
+                      echo "{$rank[0]} out of {$rank[1]} groups";
                     } else {
                       echo "Not Available";
                     }

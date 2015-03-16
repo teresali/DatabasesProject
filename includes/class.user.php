@@ -45,6 +45,7 @@ class User {
     return $this->isAdmin;
   }
 
+  // checks  if the user is already in the database
   public function isDuplicate($email, $db) {
     $check_dup = $db->query("SELECT * FROM users WHERE email = '{$email}'");
     if ($check_dup->num_rows == 1) {
@@ -53,6 +54,7 @@ class User {
     return False;
   }
 
+  // adds a user to the database
   public function addUser($data, $db) {
     $hashed_pass = hash('sha256', $data['password']);
     // add user info to database
@@ -64,6 +66,31 @@ class User {
     // to be removed!
     $data['groupId'] = 1;
     $_SESSION['user'] = new User($data);
+  }
+
+  // retrieves the group members for a given project
+  public function getGroupMembers($db, $groupId, $projectId) {
+    $q = "SELECT fName, lName from (
+            SELECT userId from groups where groupId={$groupId} and projectId={$projectId}) x 
+            INNER JOIN users on x.userId = users.userId";
+    $r = $db->query($q);
+
+    while($user =& $r->fetch_assoc()) {
+      $members .= $user['fName']." ".$user['lName'].", ";
+    }
+    return substr($members, 0, -2);
+  }
+
+  // retrieves all the assessments for a group's report
+  public function getAssessments($db, $groupId, $projectId) {
+    $q = "SELECT * from assessments where groupAssessed={$groupId} and projectId={$projectId}";
+    $r = $db->query($q);
+
+    $result = array();
+    while($assessment =& $r->fetch_assoc()) {
+      array_push($result, $assessment);
+    }
+    return $result;
   }
 
 }

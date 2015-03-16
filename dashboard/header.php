@@ -1,5 +1,5 @@
 <?php 
-  // session_start();
+  session_start();
   function __autoload($class_name) {
     include ($_SERVER['DOCUMENT_ROOT'].'/includes/class.' . strtolower($class_name) . '.php');
   }
