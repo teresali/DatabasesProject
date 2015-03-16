@@ -57,6 +57,7 @@ class Project {
     return $scores;
   }
     
+<<<<<<< HEAD
   public function getRankForUser($db, $projectId, $groupId) {
     $q = "SELECT groupAssessed, avgScore, @curRank := @curRank + 1 as rank 
           FROM (
@@ -65,6 +66,9 @@ class Project {
           ORDER BY avgScore DESC";
     $r = $db->query($q);
     $num_rows = $r->num_rows;
+=======
+    
+>>>>>>> tomasz-branch
 
     while($data =& $r->fetch_assoc()) {
       if($data['groupAssessed'] == $groupId) {
@@ -80,6 +84,13 @@ class Project {
           return True;
         }
         return False;
+    }
+    
+    public function addProject($data, $db) {
+    // add project info to database
+    $q = "INSERT INTO projects (projectTitle, dueDate, projectDescription, criteria1, criteria2, criteria3, criteria4, criteria5) VALUES ('{$data['projectTitle']}', '{$data['dueDate']}', '{$data['projectDescription']}', {$data['criteria1']}, {$data['criteria2']}, {$data['criteria3']}, {$data['criteria4']}, {$data['criteria5']})";
+        echo $q;
+    $db->query($q);
     }
   
     public function addProject($data, $db) {
