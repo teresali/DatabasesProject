@@ -5,34 +5,56 @@
   $projectId = $_GET['projectId'];
   $groupId = $_GET['groupId'];
 
-  $result = $DB->query("SELECT * from projects WHERE projectId = {$projectId}");
-  $data = $result->fetch_assoc();
-  $curr = new Project($data);
+  $q = "SELECT * FROM projects WHERE projectId={$projectId}";
+  $result = $DB->query($q);
+  $curr = new Project($result->fetch_assoc());
 
 
   if(isset($_POST['submit'])) {
-    if($_FILES['newfile']) {
-      echo "hi";
+    $errors = '';
+    $title = $_POST['title'];
+
+    // both file and pasted text
+    if(file_exists($_FILES['uploadedReport']['tmp_name']) && $_POST['pastedText']) {
+      $errors = 'Unable to both upload file and paste contents. Please fix!';
+    // file upload
+    } elseif($_FILES['uploadedReport']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['uploadedReport']['tmp_name'])) {
+      $textContent = file_get_contents($_FILES['uploadedReport']['tmp_name']); 
+    // pasted text
+    } elseif($_POST['pastedText']) {
+      $textContent = $_POST['pastedText'];
+    // no input
+    } else {
+      $errors = 'No file or pasted text was entered. Please fix!';
     }
-    echo file_get_contents($_FILES['newfile']['tmp_name']);
-    // if ($_FILES['newfile']['error'] == UPLOAD_ERR_OK               //checks for errors
-    //   && is_uploaded_file($_FILES['newfile']['tmp_name'])) { 
-    //                                                                 //checks that file is uploaded
-    //   echo file_get_contents($_FILES['newfile']['tmp_name']); 
-    // }
+    // process submission if there are no errors
+    if($errors == '') {
+      $data = array(
+        'groupId'       => $groupId,
+        'projectId'     => $projectId,
+        'title'         => $title,
+        'textContent'   => $textContent
+      );
+      // check if group has already submitted a report for a project
+      if(Report::exists($groupId, $projectId, $DB)) {
+        Report::replaceExisting($data, $DB);
+      } else {
+        Report::addReport($data, $DB);
+      }
+    }
   }
 
 ?>
 
   <div id="page-wrapper" >
     <div id="page-inner">
-  <div class="row">
-    <div class="col-md-12">
-      <h3 class="page-header">
-        <?php echo $curr->getTitle(); ?>
-      </h3>
-    </div>
-  </div> 
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="page-header">
+          <?php echo $curr->getTitle(); ?>     
+        </h3>
+      </div>
+    </div> 
    <!-- /. ROW  -->
   <div class="row">
     <div class="col-lg-12">
@@ -41,8 +63,7 @@
           <div class="panel-heading">
             Summary
           </div>
-          <div class="panel-body" style="
-    height: 218px;">
+          <div class="panel-body" style="height: 218px;">
             <table class="table borderless" id="borderless">
               <tbody>
                 <tr>
@@ -64,8 +85,11 @@
               </tbody>
             </table>
           </div>
+          <!-- /. panel-body -->
         </div>
+        <!-- /. panel -->
       </div>
+      <!-- /. col-lg-6 -->
 
       <div class="col-lg-6">
         <div class="panel panel-default">
@@ -75,8 +99,7 @@
               <a href="#">View Assessments</a>
             </div>
           </div>
-          <div class="panel-body" style="
-    height: 218px;">
+          <div class="panel-body" style="height: 218px;">
             <table class="table borderless" id="borderless">
               <tbody>
                 <tr>
@@ -106,10 +129,15 @@
               </tbody>
             </table>
           </div>
+          <!-- /. panel-body -->
         </div>
+        <!-- /. panel -->
       </div>
+      <!-- /. col-lg-6 -->
     </div>
+    <!-- /. col-lg-12 -->
   </div>
+  <!-- /. ROW -->
 
   <div class="col-lg-12">
       <div class="panel panel-default">
@@ -137,29 +165,29 @@
       </div>
   </div>
 
-    <div class="col-lg-12">
+    <div id="file-submit" class="col-lg-12">
       <div class="panel panel-default">
         <div class="panel-heading">
             File Submission
+            <span class="errors"> <?php if($errors) { echo "- ".$errors; } ?></span>
         </div>
         <div class="panel-body">
           <div class="row">
             <div class="col-lg-12">
-              <form role="form" method="post" action="<?php echo $_SERVER['PHP_SELF']."?projectId={$projectId}&groupId={$groupId}"; ?>">
+              <form role="form" method="post" action="<?php echo $_SERVER['PHP_SELF']."?projectId={$projectId}&groupId={$groupId}#file-submit" ?>" enctype="multipart/form-data">
                 <div class="form-group">
                   <label>Report Title</label>
                   <input class="form-control" name="title" required>
                 </div>
                 <div class="form-group">
                   <label>Upload File</label>
-                  <input type="file" name="newfile">
+                  <input type="file" name="uploadedReport">
                 </div>
                 <div class="form-group">
                   <label>Or Paste File Contents Here</label>
-                  <textarea class="form-control" rows="10"></textarea>
+                  <textarea class="form-control" rows="10" name="pastedText"></textarea>
                 </div>
-
-                <button type="submit" class="btn btn-default btn-primary" name = "submit">Submit</button>
+                <button type="submit" class="btn btn-default btn-primary" name="submit">Submit</button>
               </form>
           </div>            
         </div>

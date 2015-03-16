@@ -56,7 +56,7 @@ class User {
   public function addUser($data, $db) {
     $hashed_pass = hash('sha256', $data['password']);
     // add user info to database
-    $q = "INSERT INTO users (fName, lName, email, password, groupId, isAdmin) VALUES ('{$data['fName']}', '{$data['lName']}', '{$data['email']}', '{$hashed_pass}', 1, {$data['isAdmin']})";
+    $q = "INSERT INTO users (fName, lName, email, password, isAdmin) VALUES ('{$data['fName']}', '{$data['lName']}', '{$data['email']}', '{$hashed_pass}', {$data['isAdmin']})";
     $db->query($q);
     // //set user session variable 
     $id = $db->getMysqli()->insert_id;

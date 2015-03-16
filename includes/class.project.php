@@ -36,20 +36,20 @@ class Project {
   }
   
   public function calculateMean($db, $projectId) {
-    $q = "SELECT ROUND(AVG(avgScore), 2) as mean from reports WHERE projectId = {$projectId}";
+    $q = "SELECT ROUND(AVG(score1 + score2 + score3 + score4 + score5), 2) as mean from assessments WHERE projectId = {$projectId}";
     $r = $db->query($q);
     $data = $r->fetch_assoc();
     return $data['mean'];
   }
 
   public function getScoreForUser($db, $projectId, $groupId) {
-    $q = "SELECT avgScore from reports WHERE groupId = {$groupId} AND projectId = {$projectId}";
+    $q = "SELECT ROUND(AVG(score1 + score2 + score3 + score4 + score5), 2) from assessments WHERE groupAssessed = {$groupId} AND projectId = {$projectId}";
     $r = $db->query($q);
     $data = $r->fetch_assoc();
     return $data['avgScore'];
   }
 
-  
+
 
 
 }

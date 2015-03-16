@@ -465,3 +465,8 @@ font-size: 19px;
 .table>thead>tr>th {
     border-bottom: none;
 }
+
+.errors {
+  color: #FF0000;
+  padding-bottom:10px;
+}

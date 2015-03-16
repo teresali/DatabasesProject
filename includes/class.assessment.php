@@ -3,8 +3,7 @@
 class Assessment{
   private $groupId;
   private $reportId;
-  private $totalScore;
-  private $score(6);
+  private $score = array(6);
 
   function __construct($data) {
     $this->groupId = $this['groupId'];

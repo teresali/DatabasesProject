@@ -17,13 +17,7 @@ include('header.php');
 
                 <div class="row">
                     <div class="col-md-12">
-                    <!-- Advanced Tables -->
                     <div class="panel panel-default">
-<!--
-                        <div class="panel-heading">
-                             Projects
-                        </div>
--->
                         <div class="panel-body">
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
@@ -45,7 +39,7 @@ include('header.php');
 
                                                 while($p =& $result->fetch_assoc()) {
                                                     $projectId = $p['projectId'];
-                                                    $projectTitle = $p['projectTitle'];
+                                                    $title = $p['projectTitle'];
                                                     $dueDate = $p['dueDate'];
                                                     // have to change once configure admin
                                                     $groupId = 1;                                               
@@ -53,7 +47,7 @@ include('header.php');
                                                     $score = Project::getScoreForUser($DB, $projectId, $groupId);
 
                                                     echo "<tr>";
-                                                    echo "<td><a href=report.php?projectId={$projectId}&groupId={$groupId}>{$projectTitle}</a></td>";
+                                                    echo "<td><a href=report.php?projectId={$projectId}&groupId={$groupId}>{$title}<S/a></td>";
                                                     echo "<td>{$dueDate}</td>";
                                                     echo "<td>{$score}</td>";
                                                     echo "<td>{$mean}</td>";
@@ -61,8 +55,6 @@ include('header.php');
                                                     echo "</tr>";
                                                 }
                                            }
-                                            
-
                                         ?>
                                     </tbody>
                                 </table>
