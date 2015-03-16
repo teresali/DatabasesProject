@@ -7,20 +7,46 @@
     include($_SERVER['DOCUMENT_ROOT'].'/includes/class.' . strtolower($class_name) . '.php');
   }
 
-  $DB = Database::Instance();
-
   if(isset($_POST['submit'])) {
-    $args = array(
-        'email'     => $_POST['email'],
-        'password'  => $_POST['password'],
-    );
-    $output = strip_arr($args);
-    $data = $output['arr'];
-    $errors = $output['errors'];
 
-    if($errors == '') {
+    if (empty($_POST['email']) || empty($_POST['password'])) {
+      $errors = "Username or Password is invalid"; //Username or Password not provided
+    } else {
+      $email=$_POST['email'];
+      $password=$_POST['password'];
+      $DB = Database::Instance();
+
+
+      $result = $DB->query("SELECT * from users where email='{$email}'"); 
+
+      if ($result->num_rows == 1) {
+        $data = $result->fetch_assoc();
+
+        $entered_password = hash('sha256', $password);
+        $stored_password = $data['password'];
+        
+        if ($entered_password == $stored_password){
+
+          $_SESSION['user'] = new User($data);
+
+          if ($user->isAdmin == 1) {
+            $_SESSION['isAdmin'] = 1;
+            
+          } else {
+            $_SESSION['isAdmin'] = 0;
+          }
+          header('Location: ../index.php');
+          exit(); 
+
+        } else {
+          $errors = "Username or Password is invalid";  // Incorrect password
+        }
+      } else {
+        $errors = "Username or Password is invalid"; // Email not associated with any user
+      }
 
     }
+  
   }
 
 ?>
@@ -60,8 +86,7 @@
     <div id="login-box" class="white-box container-fluid text-center">
       <img src="../img/logo-in.png" alt="Absinth">
       <div class="errors"> <?php if($errors) { echo $errors; } ?> </div>
-      <!-- <form class="form-horizontal form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>"> -->
-      <form class="form-horizontal form" method="post" action="php/login.php">
+      <form class="form-horizontal form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>"> 
         <div class="form-group">
           <input id="email" class="form-control" type="email" placeholder="Email" name="email" required>
         </div>
