@@ -43,13 +43,36 @@ class Project {
   }
 
   public function getScoreForUser($db, $projectId, $groupId) {
-    $q = "SELECT ROUND(AVG(score1 + score2 + score3 + score4 + score5), 2) from assessments WHERE groupAssessed = {$groupId} AND projectId = {$projectId}";
+    $q = "SELECT ROUND(AVG(score1),2) as s1, ROUND(AVG(score2),2) as s2, ROUND(AVG(score3),2) as s3, ROUND(AVG(score4),2) as s4, ROUND(AVG(score5),2) as s5, ROUND(AVG(score1 + score2 + score3 + score4 + score5), 2) as score from assessments WHERE groupAssessed = {$groupId} AND projectId = {$projectId}";
     $r = $db->query($q);
     $data = $r->fetch_assoc();
-    return $data['avgScore'];
+    $scores = array(
+      'total' => $data['score'],
+      's1'    => $data['s1'],
+      's2'    => $data['s2'],
+      's3'    => $data['s3'],
+      's4'    => $data['s4'],
+      's5'    => $data['s5']
+    );
+    return $scores;
   }
 
+  public function getRankForUser($db, $projectId, $groupId) {
+    $q = "SELECT groupAssessed, avgScore, @curRank := @curRank + 1 as rank 
+          FROM (
+            SELECT groupAssessed, (score1 + score2 + score3 + score4 + score5) as avgScore from assessments where projectId = {$projectId} group by groupAssessed) x, 
+            (SELECT @curRank := 0 ) y 
+          ORDER BY avgScore DESC";
+    $r = $db->query($q);
+    $num_rows = $r->num_rows;
 
+    while($data =& $r->fetch_assoc()) {
+      if($data['groupAssessed'] == $groupId) {
+        return array($data['rank'], $num_rows);
+      }
+    }
+    return NULL;
+  }
 
 
 }

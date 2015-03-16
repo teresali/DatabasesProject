@@ -19,7 +19,7 @@
   if (!isset($_SESSION['user'])) {
     header('Location: php/login.php');
   } else if ($_SESSION['isAdmin']) {
-    header('Location: dashboard/admin-index.php');
+    header('Location: dashboard/admin/index.php');
   } else {
     header('Location: dashboard/index.php');
   }

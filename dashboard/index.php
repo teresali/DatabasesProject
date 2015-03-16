@@ -20,7 +20,7 @@ include('header.php');
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr>
                                             <th class="col-md-2">Name</th>
@@ -44,7 +44,7 @@ include('header.php');
                                                     // have to change once configure admin
                                                     $groupId = 1;                                               
                                                     $mean = Project::calculateMean($DB, $projectId);
-                                                    $score = Project::getScoreForUser($DB, $projectId, $groupId);
+                                                    $score = Project::getScoreForUser($DB, $projectId, $groupId)['total'];
 
                                                     echo "<tr>";
                                                     echo "<td><a href=report.php?projectId={$projectId}&groupId={$groupId}>{$title}<S/a></td>";

@@ -6,7 +6,6 @@ class Report {
   private $title;
   private $dateSubmitted;
   private $text;
-  private $overallScore;
 
   function __construct($data) {
     $this->groupId = $data['groupId'];
@@ -26,39 +25,42 @@ class Report {
   public function getTitle() {
     return $this->title;
   }
-  public function getScore() {
-    return $this->overallScore;
+
+  public function test() {
+    echo "YOOOOOoooooooojsodjfjsadfjsldkjflsdjflsdjfalksdjfaljsdlfjsd";
   }
+
 
   public function exists($groupId, $projectId, $db) {
     $q = "SELECT * FROM reports 
             WHERE groupId = {$groupId} and projectId = {$projectId}";
     $check_exists = $db->query($q);
     if($check_exists->num_rows == 1) {
-      return True;
+      return $check_exists->fetch_assoc();
     }
-    return False;
+    return NULL;
   }
 
   public function addReport($data, $db) {
     $date = date('Y-m-d H:i:s');
-    $q = "INSERT INTO reports (groupId, projectId, title, dateSubmitted, textContent) 
-            VALUES ({$data['groupId']}, {$data['projectId']}, '{$data['title']}', '{$date}', '{$data['textContent']}')";
+    $q = "INSERT INTO reports (groupId, projectId, title, dateSubmitted, textContent, md5) 
+            VALUES ({$data['groupId']}, {$data['projectId']}, '{$data['title']}', '{$date}', '{$data['textContent']}', '{$data['md5']}')";
     $db->query($q);
   }
 
   public function replaceExisting($data, $db) {
     $date = date('Y-m-d H:i:s');
     $q = "UPDATE reports
-            SET title='{$data['title']}', dateSubmitted='{$date}', textContent='{$data['textContent']}'
+            SET title='{$data['title']}', dateSubmitted='{$date}', textContent='{$data['textContent']}', md5='{$data['md5']}'
             WHERE projectId={$data['projectId']} and groupId={$data['groupId']}";
     $db->query($q);
   }
 
-  public function getAvgScore() {
+  public function calculateRank($groupdId, $projectId, $db) {
+    // $q = "SELECT AVG(score1), AVG(score2), AVG(score3), AVG(score4), AVG(score5), @curRank := @curRank + 1 as score1, score2, score3, score4, score5, rank from assessments, (SELECT @curRank := 0) r where groupId={$groupId and projectId={$projectId} order by (score1+score2+score3+score4+score5)";
+    // echo $q;
 
   }
-
 
 }
 

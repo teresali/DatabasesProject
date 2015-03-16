@@ -20,23 +20,26 @@
     // file upload
     } elseif($_FILES['uploadedReport']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['uploadedReport']['tmp_name'])) {
       $textContent = file_get_contents($_FILES['uploadedReport']['tmp_name']); 
-    // pasted text
+      $md5 = md5_file($_FILES['uploadedReport']['tmp_name']);
+    // // pasted text
     } elseif($_POST['pastedText']) {
       $textContent = $_POST['pastedText'];
+      $md5 = 'None';
     // no input
     } else {
       $errors = 'No file or pasted text was entered. Please fix!';
     }
-    // process submission if there are no errors
+    // // process submission if there are no errors
     if($errors == '') {
       $data = array(
         'groupId'       => $groupId,
         'projectId'     => $projectId,
         'title'         => $title,
-        'textContent'   => $textContent
+        'textContent'   => $textContent,
+        'md5'           => $md5
       );
-      // check if group has already submitted a report for a project
-      if(Report::exists($groupId, $projectId, $DB)) {
+    //   // check if group has already submitted a report for a project
+      if(Report::exists($groupId, $projectId, $DB) != NULL) {
         Report::replaceExisting($data, $DB);
       } else {
         Report::addReport($data, $DB);
@@ -103,28 +106,30 @@
             <table class="table borderless" id="borderless">
               <tbody>
                 <tr>
-                  <td class="col-md-5"><?php echo $curr->getCriteria()[0]; ?></td>
-                  <td class="col-md-7">4</td>
+                  <td class="col-md-5"><?php 
+                    $scores = Project::getScoreForUser($DB, $projectId, $groupId);
+                    echo $curr->getCriteria()[0]; ?></td>
+                  <td class="col-md-7"><?php echo $scores['s1']?></td>
                 </tr>
                 <tr>
                   <td class="col-md-5"><?php echo $curr->getCriteria()[1]; ?></td>
-                  <td class="col-md-7">5</td>
+                  <td class="col-md-7"><?php echo $scores['s2']?></td>
                 </tr>
                 <tr>
                   <td class="col-md-5"><?php echo $curr->getCriteria()[2]; ?></td>
-                  <td class="col-md-7">3</td>
+                  <td class="col-md-7"><?php echo $scores['s3']?></td>
                 </tr>
                 <tr>
                   <td class="col-md-5"><?php echo $curr->getCriteria()[3]; ?></td>
-                  <td class="col-md-7">5</td>
+                  <td class="col-md-7"><?php echo $scores['s4']?></td>
                 </tr>
                 <tr>
                   <td class="col-md-5"><?php echo $curr->getCriteria()[4]; ?></td>
-                  <td class="col-md-7">4</td>
+                  <td class="col-md-7"><?php echo $scores['s5']?></td>
                 </tr>
                 <tr>
                   <td class="col-md-5"><strong>Overall</strong></td>
-                  <td class="col-md-7">21</td>
+                  <td class="col-md-7"><?php echo $scores['total']?></td>
                 </tr>
               </tbody>
             </table>
@@ -156,7 +161,16 @@
             <tbody>
               <tr>
                 <td><?php echo Project::calculateMean($DB, $projectId); ?></td>
-                <td>3 out of 10 groups</td>
+                <td>
+                  <?php 
+                    $rank = Project::getRankForUser($DB, $projectId, $groupId);
+                    if($rank != NULL) {
+                      echo "{$rank[0]} out of {$rank[1]}";
+                    } else {
+                      echo "Not Available";
+                    }
+                  ?>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -165,7 +179,64 @@
       </div>
   </div>
 
-    <div id="file-submit" class="col-lg-12">
+  <?php 
+    $report = Report::exists($groupId, $projectId, $DB);
+    // if submission has already been made then show details
+    if($report != NULL) {
+  ?>
+    <div id="submissions" class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Submission
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                  <th class="col-md-2">Submitted</th>
+                  <th class="col-md-2">Date</th>
+                  <th class="col-md-3">MD5</th>
+                </tr>
+            </thead>
+            <tbody>
+              <?php
+                echo "<tr>";
+                echo "<td>{$report['title']}</td>";
+                echo "<td>{$report['dateSubmitted']}</td>";
+                echo "<td>{$report['md5']}</td>";
+                echo "</tr>";
+              ?>
+            </tbody>
+          </table>
+        </div>
+          <!-- /. panel-body -->
+      </div>
+      <!-- /. panel -->
+    </div>
+    <!-- /. col-lg-12 -->
+
+  <?php } 
+
+    $now = new DateTime();
+    $dueDate = new DateTime($curr->getDueDate());
+    $interval = $now->diff($dueDate);
+    $diff = (int)$interval->format('%r%a');
+    if($diff < 0) {
+      echo "
+        <div id='file-submit' class='col-lg-12'>
+          <div class='panel panel-default'>
+            <div class='panel-heading errors'>
+                Submission Closed
+            </div>
+          </div>
+        </div>
+      ";
+    }
+    // if not overdue then show file submission form
+    else {
+  ?>
+
+      <div id="file-submit" class="col-lg-12">
       <div class="panel panel-default">
         <div class="panel-heading">
             File Submission
@@ -174,7 +245,7 @@
         <div class="panel-body">
           <div class="row">
             <div class="col-lg-12">
-              <form role="form" method="post" action="<?php echo $_SERVER['PHP_SELF']."?projectId={$projectId}&groupId={$groupId}#file-submit" ?>" enctype="multipart/form-data">
+              <form role="form" method="post" action="<?php echo $_SERVER['PHP_SELF']."?projectId={$projectId}&groupId={$groupId}#submission" ?>" enctype="multipart/form-data">
                 <div class="form-group">
                   <label>Report Title</label>
                   <input class="form-control" name="title" required>
@@ -198,6 +269,16 @@
     <!-- /.panel -->
   </div>
   <!-- /.col-lg-12 -->
+
+
+  <?php
+
+    }
+
+  ?>
+
+
+    
 </div>
 
           
