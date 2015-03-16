@@ -50,12 +50,6 @@ class Project {
   }
     
     
-    public function addProject($data, $db) {
-    // add project info to database
-    $q = "INSERT INTO projects (projectTitle, dueDate, projectDescription, criteria1, criteria2, criteria3, criteria4, criteria5) VALUES ('{$data['projectTitle']}', '{$data['dueDate']}', '{$data['projectDescription']}', {$data['criteria1']}, {$data['criteria2']}, {$data['criteria3']}, {$data['criteria4']}, {$data['criteria5']})";
-        echo $q;
-    $db->query($q);
-    }
 
     public function isDuplicate($email, $db) {
         $check_dup = $db->query("SELECT * FROM projects WHERE projectTitle = '{$title}'");
@@ -63,6 +57,13 @@ class Project {
           return True;
         }
         return False;
+    }
+    
+    public function addProject($data, $db) {
+    // add project info to database
+    $q = "INSERT INTO projects (projectTitle, dueDate, projectDescription, criteria1, criteria2, criteria3, criteria4, criteria5) VALUES ('{$data['projectTitle']}', '{$data['dueDate']}', '{$data['projectDescription']}', {$data['criteria1']}, {$data['criteria2']}, {$data['criteria3']}, {$data['criteria4']}, {$data['criteria5']})";
+        echo $q;
+    $db->query($q);
     }
   
 
