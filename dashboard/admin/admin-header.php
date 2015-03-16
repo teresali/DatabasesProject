@@ -36,7 +36,7 @@
                     <span class="icon-bar"></span>
                 </button>
 <!--                <a class="navbar-brand" href="index.html">ABSINTH</a>-->
-                <img id="logo" src="../../img/logo-in.png" alt="Absinth">
+                <a href="index.php"><img id="logo" src="../../img/logo-in.png" alt="Absinth"></a>
             </div>
 
             <ul class="nav navbar-top-links navbar-right">
@@ -64,7 +64,7 @@
                 <ul class="nav" id="main-menu">
 
                     <li>
-                        <a class="active-menu" href="admin-index.php"><i class="fa fa-dashboard"></i> Dashboard</a>
+                        <a class="active-menu" href="index.php"><i class="fa fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
                         <a href="view-scores.php"><i class="fa fa-edit"></i> View Scores</a>
