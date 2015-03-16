@@ -57,7 +57,7 @@ class Project {
     return $scores;
   }
     
-<<<<<<< HEAD
+
   public function getRankForUser($db, $projectId, $groupId) {
     $q = "SELECT groupAssessed, avgScore, @curRank := @curRank + 1 as rank 
           FROM (
@@ -66,9 +66,6 @@ class Project {
           ORDER BY avgScore DESC";
     $r = $db->query($q);
     $num_rows = $r->num_rows;
-=======
-    
->>>>>>> tomasz-branch
 
     while($data =& $r->fetch_assoc()) {
       if($data['groupAssessed'] == $groupId) {
