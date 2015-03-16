@@ -29,7 +29,7 @@
 
           $_SESSION['user'] = new User($data);
 
-          if ($user->isAdmin == 1) {
+          if ($data['isAdmin'] == 1) {
             $_SESSION['isAdmin'] = 1;
             
           } else {

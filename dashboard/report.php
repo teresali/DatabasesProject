@@ -245,7 +245,7 @@
         <div class="panel-body">
           <div class="row">
             <div class="col-lg-12">
-              <form role="form" method="post" action="<?php echo $_SERVER['PHP_SELF']."?projectId={$projectId}&groupId={$groupId}#submission" ?>" enctype="multipart/form-data">
+              <form role="form" method="post" action="<?php echo $_SERVER['PHP_SELF']."?projectId={$projectId}&groupId={$groupId}#submissions" ?>" enctype="multipart/form-data">
                 <div class="form-group">
                   <label>Report Title</label>
                   <input class="form-control" name="title" required>
@@ -281,8 +281,6 @@
     
 </div>
 
-          
-<footer><p>All right reserved. Template by: <a href="http://webthemez.com">WebThemez</a></p></footer>
 </div>
 <!-- /. PAGE INNER  -->
 </div>
