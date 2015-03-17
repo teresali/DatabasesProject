@@ -34,6 +34,17 @@ class Project {
   public function getCriteria() {
     return $this->criteria;
   }
+
+  public function getTitles($db) {
+    $q = "SELECT projectId, projectTitle from projects";
+    $r = $db->query($q);
+
+    $map = array();
+    while ($p =& $r->fetch_assoc()) {
+      $map[$p['projectId']] = $p['projectTitle'];
+    }
+    return $map;
+  }
   
   public function calculateMean($db, $projectId) {
     $q = "SELECT ROUND(AVG(score1 + score2 + score3 + score4 + score5), 2) as mean from assessments WHERE projectId = {$projectId}";
@@ -55,6 +66,17 @@ class Project {
       return True;
     }
     return False;
+  }
+
+  public function exists($db, $projectId) {
+    $q = "SELECT * from projects where projectId={$projectId}";
+    $r = $db->query($q);
+
+    if($r->num_rows == 1) {
+      return $r->fetch_assoc();
+    } else {
+      return NULL;
+    }
   }
 
   public function getScoreForUser($db, $projectId, $groupId) {

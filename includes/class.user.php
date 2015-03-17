@@ -15,7 +15,6 @@ class User {
     $this->fName = $data['fName'];
     $this->lName = $data['lName'];
     $this->email = $data['email'];
-    $this->groupId = $data['groupId'];
     $this->isAdmin = $data['isAdmin'];
   }
 
@@ -63,9 +62,10 @@ class User {
     // //set user session variable 
     $id = $db->getMysqli()->insert_id;
     $data['userId'] = $id;
+    $user = new User($data);
     // to be removed!
-    $data['groupId'] = 1;
-    $_SESSION['user'] = new User($data);
+    $user->setGroupId(1);
+    $_SESSION['user'] = $user;
   }
 
   // retrieves the group members for a given project

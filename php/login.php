@@ -26,8 +26,8 @@
         $stored_password = $data['password'];
         
         if ($entered_password == $stored_password){
-
-          $_SESSION['user'] = new User($data);
+          $user = new User($data);
+          $_SESSION['user'] = $user;
 
           if ($data['isAdmin'] == 1) {
             $_SESSION['isAdmin'] = 1;
@@ -35,6 +35,8 @@
           } else {
             $_SESSION['isAdmin'] = 0;
           }
+          // to be changed
+          $_SESSION['user']->setGroupId(1);
           header('Location: ../index.php');
           exit(); 
 
@@ -44,7 +46,6 @@
       } else {
         $errors = "Username or Password is invalid"; // Email not associated with any user
       }
-
     }
   
   }

@@ -500,3 +500,24 @@ p {
 .no-padding {
   padding:0px;
 }
+.edit {
+  padding-right:5px;
+}
+.width-80 {
+  width:80px;
+}
+.score {
+  padding-bottom:10px;
+  padding-right:10px;
+}
+.float {
+  float:left;
+  clear:left;
+  width:100%;
+}
+.offset {
+  padding-left: 195px;
+}
+html {
+  height:100%;
+}

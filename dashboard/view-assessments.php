@@ -73,14 +73,14 @@
                   </div>
                   {$footer}
                     <div class='col-md-3'>
-                      <strong>Overall Score: {$total}</strong>
+                      <strong>Overall Score: {$total}/25</strong>
                     </div>
                     <div class='col-md-9 right-align'>
-                      {$c1}: {$s1} &nbsp
-                      {$c2}: {$s2} &nbsp
-                      {$c3}: {$s3} &nbsp
-                      {$c4}: {$s4} &nbsp
-                      {$c5}: {$s5}  
+                      {$c1}: {$s1}/5 &nbsp
+                      {$c2}: {$s2}/5 &nbsp
+                      {$c3}: {$s3}/5 &nbsp
+                      {$c4}: {$s4}/5 &nbsp
+                      {$c5}: {$s5}/5  
                     </div>
                   </div>
                 </div>

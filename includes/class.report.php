@@ -26,8 +26,15 @@ class Report {
     return $this->title;
   }
 
+  public function getTitleDB($db, $groupId, $projectId) {
+    $q = "SELECT title from reports where groupId={$groupId} and projectId={$projectId}";
+    $r = $db->query($q);
+    $data = $r->fetch_assoc();
+    return $data['title'];
+  }
 
-  public function exists($groupId, $projectId, $db) {
+
+  public function exists($db, $groupId, $projectId) {
     $q = "SELECT * FROM reports 
             WHERE groupId = {$groupId} and projectId = {$projectId}";
     $check_exists = $db->query($q);

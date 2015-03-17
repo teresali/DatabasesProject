@@ -62,7 +62,7 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="col-lg-6">
-        <div class="panel panel-default">
+        <div class="panel panel-default no-boder">
           <div class="panel-heading">
             Summary
           </div>
@@ -99,9 +99,9 @@
       <!-- /. col-lg-6 -->
 
       <div class="col-lg-6">
-        <div class="panel panel-default">
+        <div class="panel panel-default no-boder">
           <div class="panel-heading">
-            Scores from Peer Assessments
+            Average Scores from Peer Assessments
             <div class="pull-right">
               <a href='<?php echo "view-assessments.php?projectId={$projectId}&groupId={$groupId}" ?>'>View Assessments</a>
             </div>
@@ -149,7 +149,7 @@
   <!-- /. ROW -->
 
   <div class="col-lg-12">
-      <div class="panel panel-default">
+      <div class="panel panel-default no-boder">
         <div class="panel-heading">
             Statistics
         </div>
@@ -186,12 +186,12 @@
   </div>
 
   <?php 
-    $report = Report::exists($groupId, $projectId, $DB);
+    $report = Report::exists($DB, $groupId, $projectId);
     // if submission has already been made then show details
     if($report != NULL) {
   ?>
     <div id="submissions" class="col-lg-12">
-      <div class="panel panel-default">
+      <div class="panel panel-default no-boder">
         <div class="panel-heading">
           Submission
         </div>
@@ -230,7 +230,7 @@
     if($diff < 0) {
       echo "
         <div id='file-submit' class='col-lg-12'>
-          <div class='panel panel-default'>
+          <div class='panel panel-default no-boder'>
             <div class='panel-heading errors'>
                 Submission Closed
             </div>
