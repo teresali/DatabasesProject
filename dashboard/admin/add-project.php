@@ -17,12 +17,7 @@
         'criteria4'     => $_POST['criteria4'],
         'criteria5'     => $_POST['criteria5']
     );
-
-      
-    foreach($data as $val) {
-        echo $val;
-    }
-   
+        
     $errors ='';
         
     if(Project::isDuplicate($_POST['title'], $DB)) {
@@ -31,10 +26,7 @@
     
     if($errors == '') {
       Project::addProject($data, $DB);
-    } else {
-
     }
-   
   }
 ?>
     <div id="page-wrapper">
@@ -47,7 +39,7 @@
                     <div class="panel-body">
                       <div class="row">
                         <div class="col-lg-12">
-                          <form role="form" method="post" action="<?php echo $_SERVER['PHP_SELF']."?projectId={$projectId}&groupId={$groupId}"; ?>">
+                          <form role="form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                             <div class="form-group">
                               <label>Project Title</label>
                               <input class="form-control" name="title" required>
