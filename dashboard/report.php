@@ -1,27 +1,36 @@
 <?php
   include('header.php');
 
+  // needed fields for calculations
   $DB = Database::Instance();
   $projectId = $_GET['projectId'];
   $groupId = $_GET['groupId'];
+  $project = Project::exists($DB, $projectId);
+  $curr = new Project($project);
 
-  $q = "SELECT * FROM projects WHERE projectId={$projectId}";
-  $result = $DB->query($q);
-  $curr = new Project($result->fetch_assoc());
-
-
+  // on submit upload the report
   if(isset($_POST['submit'])) {
     $errors = '';
     $title = $_POST['title'];
+    $file = $_FILES['uploadedReport']['tmp_name'];
+    $filename = $_FILES['uploadedReport']['name'];
 
     // both file and pasted text
-    if(file_exists($_FILES['uploadedReport']['tmp_name']) && $_POST['pastedText']) {
+    if(file_exists($file) && $_POST['pastedText']) {
       $errors = 'Unable to both upload file and paste contents. Please fix!';
     // file upload
-    } elseif($_FILES['uploadedReport']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['uploadedReport']['tmp_name'])) {
-      $textContent = file_get_contents($_FILES['uploadedReport']['tmp_name']); 
+    } elseif($_FILES['uploadedReport']['error'] == UPLOAD_ERR_OK && is_uploaded_file($file)) {
+      if(strpos($filename, '.xml') == false) {
+        echo 'not xml';
+        $textContent = file_get_contents($file); 
+      } else {
+        // loads an xml file into the database
+        $xml = simplexml_load_file($file);
+        $title = $xml->title;
+        $textContent = $xml->body;
+      }
       $md5 = md5_file($_FILES['uploadedReport']['tmp_name']);
-    // // pasted text
+    // pasted text
     } elseif($_POST['pastedText']) {
       $textContent = $_POST['pastedText'];
       $md5 = 'None';
@@ -29,7 +38,17 @@
     } else {
       $errors = 'No file or pasted text was entered. Please fix!';
     }
-    // // process submission if there are no errors
+
+    // if no title is given then use filename or 'No Title'
+    if($title == '') {
+      if($filename != '') {
+        $title = $filename;
+      } else {
+        $title = 'No Title';
+      }
+    }
+
+    // // // process submission if there are no errors
     if($errors == '') {
       $data = array(
         'groupId'       => $groupId,
@@ -38,8 +57,8 @@
         'textContent'   => $textContent,
         'md5'           => $md5
       );
-    //   // check if group has already submitted a report for a project
-      if(Report::exists($groupId, $projectId, $DB) != NULL) {
+      // check if group has already submitted a report for a project
+      if(Report::exists($DB, $groupId, $projectId) != NULL) {
         Report::replaceExisting($data, $DB);
       } else {
         Report::addReport($data, $DB);
@@ -269,13 +288,11 @@
               <form role="form" method="post" action="<?php echo $_SERVER['PHP_SELF']."?projectId={$projectId}&groupId={$groupId}#submissions" ?>" enctype="multipart/form-data">
                 <div class="form-group">
                   <label>Report Title</label>
-                  <input class="form-control" name="title" required>
+                  <input class="form-control" name="title">
                 </div>
                 <div class="form-group">
-                  <label>Upload Text File</label>
+                  <label>Upload Text or XML File</label>
                   <input type="file" name="uploadedReport">
-                  <label>Upload XML File</label>
-                  <input type="file" name="xmlReport">
                 </div>
                 <div class="form-group">
                   <label>Or Paste File Contents Here</label>
@@ -293,15 +310,6 @@
   </div>
   <!-- /.col-lg-12 -->
 
-
-  <?php
-
-    }
-
-  ?>
-
-
-    
 </div>
 
 </div>
@@ -309,3 +317,4 @@
 </div>
 <!-- /. PAGE WRAPPER  -->
 <?php include('footer.php'); ?>
+

@@ -81,7 +81,7 @@ class User {
     $data['userId'] = $id;
     $user = new User($data);
     // to be removed!
-    $user->setGroupId(1);
+    $user->setGroupId(2);
     $_SESSION['user'] = $user;
   }
 

@@ -49,21 +49,21 @@ include('../../config.php');
                                           $result = $DB->query($q);
                                                
                                           while($p =& $result->fetch_assoc()) {
-                                              $projectId = $p['projectId'];
-                                              $title = $p['projectTitle'];
-                                              $dueDate = $p['dueDate'];
-                                              // have to change once configure admin                                            
-                                              $mean = Project::calculateMean($DB, $projectId);
-                                              $stddev = Project::calculateStdDev($DB, $projectId);
-                                              $numSubmissions = Project::countSubmissions($DB, $projectId);
+                                            $projectId = $p['projectId'];
+                                            $title = $p['projectTitle'];
+                                            $dueDate = $p['dueDate'];
+                                                                                      
+                                            $mean = Project::calculateMean($DB, $projectId);
+                                            $stddev = Project::calculateStdDev($DB, $projectId);
+                                            $numSubmissions = Project::countSubmissions($DB, $projectId);
 
-                                              echo "<tr>";
-                                              echo "<td><a href=view-scores-project.php?projectId={$projectId}>{$title}<S/a></td>";
-                                              echo "<td>{$dueDate}</td>";
-                                              echo "<td>{$mean}</td>";
-                                              echo "<td>{$stddev}</td>";
-                                              echo "<td>{$numSubmissions}</td>";
-                                              echo "</tr>";
+                                            echo "<tr>";
+                                            echo "<td><a href=view-scores-project.php?projectId={$projectId}>{$title}<S/a></td>";
+                                            echo "<td>{$dueDate}</td>";
+                                            echo "<td>{$mean}</td>";
+                                            echo "<td>{$stddev}</td>";
+                                            echo "<td>{$numSubmissions}</td>";
+                                            echo "</tr>";
                                           }
                                        }
                                     ?>
@@ -110,7 +110,7 @@ include('../../config.php');
                                               $avg = User::getAvgScore($DB, $userId);
                                               $numReports = User::getNumReports($DB, $userId);
 
-                                              if($avg <= 12) {
+                                              if($avg <= 12 && ($numReports[0] != 0)) {
                                                 $comments = 'Student is below average';
                                               } else {
                                                 $comments = '';
