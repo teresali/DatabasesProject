@@ -83,7 +83,8 @@
                     <th class="col-md-2">ProjectTitle</th>
                     <th class="col-md-2">GroupId</th>
                     <th class="col-md-2">Date Assessed</th>
-                    <th class="col-md-1">Overall Score</th>
+                    <th class="col-md-1">Score Given</th>
+                    <th class="col-md-1">Avg</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -93,6 +94,7 @@
                     foreach($completed as $a) {
                       $score = $a['score1'] + $a['score2'] + $a['score3'] + $a['score4'] + $a['score5'];
                       $title = Report::getTitleDB($DB, $a['groupAssessed'], $a['projectId']);
+                      $avg = Project::getScoreForUser($DB, $a['projectId'], $a['groupAssessed'])['total'];
 
                       echo "<tr>";
                       echo "<td>{$title}<a class='pull-right' href='single-view-assessment.php?toassess={$a['groupAssessed']}&projectId={$a['projectId']}' title='Edit Assessment'><i class='edit fa fa-pencil pull-right'></i></a></td>";
@@ -100,6 +102,7 @@
                       echo "<td>Anonymous</td>";
                       echo "<td>{$a['dateAssessed']}</td>";
                       echo "<td>{$score}</td>";
+                      echo "<td>{$avg}</td>";
                       echo "</tr>";
                     }
 

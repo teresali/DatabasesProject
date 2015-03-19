@@ -1,18 +1,25 @@
-</div>
+
     <!-- /. WRAPPER  -->
     <!-- JS Scripts-->
     <!-- jQuery Js -->
     <script src="../assets/js/jquery-1.10.2.js"></script>
-    <!-- Bootstrap Js -->
+      <!-- Bootstrap Js -->
     <script src="../assets/js/bootstrap.min.js"></script>
     <!-- Metis Menu Js -->
     <script src="../assets/js/jquery.metisMenu.js"></script>
-    <!-- Morris Chart Js -->
-    <script src="../assets/js/morris/raphael-2.1.0.min.js"></script>
-    <script src="../assets/js/morris/morris.js"></script>
-    <!-- Custom Js -->
+     <!-- DATA TABLE SCRIPTS -->
+    <script src="../assets/js/dataTables/jquery.dataTables.js"></script>
+    <script src="../assets/js/dataTables/dataTables.bootstrap.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#view-scores').dataTable();
+            });
+        </script>
+         <!-- Custom Js -->
     <script src="../assets/js/custom-scripts.js"></script>
-
+         <!-- Moment Js -->
+    <script src="../assets/js/moment.js"></script>
+    <script src="../assets/js/bootstrap-datetimepicker.min.js"></script> 
 
 </body>
 

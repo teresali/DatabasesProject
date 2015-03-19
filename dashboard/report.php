@@ -207,11 +207,26 @@
             <tbody>
               <?php
                 echo "<tr>";
-                echo "<td>{$report['title']}</td>";
+                echo "<td>{$report['title']}<button class='report-button report-icon-right' data-toggle='modal' data-target='#submission'><i class='fa fa-file-text'></i></button></td>";
                 echo "<td>{$report['dateSubmitted']}</td>";
                 echo "<td>{$report['md5']}</td>";
                 echo "</tr>";
-              ?>
+
+                echo "<div class='modal fade' id='submission' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+                        <div class='modal-dialog'>
+                          <div class='modal-content'>
+                            <div class='modal-header'>
+                              <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+                              <h4 class='modal-title' id='myModalLabel'>{$report['title']}</h4>
+                            </div>
+                            <div class='modal-body'>
+                              {$report['textContent']}
+                            </div>
+                            
+                          </div>
+                        </div>
+                      </div>";
+?>
             </tbody>
           </table>
         </div>

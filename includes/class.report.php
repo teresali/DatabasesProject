@@ -33,7 +33,6 @@ class Report {
     return $data['title'];
   }
 
-
   public function exists($db, $groupId, $projectId) {
     $q = "SELECT * FROM reports 
             WHERE groupId = {$groupId} and projectId = {$projectId}";
@@ -57,10 +56,6 @@ class Report {
             SET title='{$data['title']}', dateSubmitted='{$date}', textContent='{$data['textContent']}', md5='{$data['md5']}'
             WHERE projectId={$data['projectId']} and groupId={$data['groupId']}";
     $db->query($q);
-  }
-
-  public function getAssessments($projectId, $groupdId, $db) {
-    $q = "SELECT * from assessments where groupId={$groupId} and projectId={$projectId}";
   }
 
 }

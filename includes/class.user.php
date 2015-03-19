@@ -53,6 +53,23 @@ class User {
     return False;
   }
 
+  public function exists($db, $userId) {
+    $q = "SELECT * FROM users 
+            WHERE userId = {$userId}";
+    $check_exists = $db->query($q);
+    if($check_exists->num_rows == 1) {
+      return $check_exists->fetch_assoc();
+    }
+    return NULL;
+  }
+
+  // retrieve the groupId
+  public function findGroupId($db, $userId) {
+    $q = "SELECT groupId from groups";
+    $r = $db->query($q);
+    return $r->fetch_assoc()['groupId'];
+  }
+
   // adds a user to the database
   public function addUser($data, $db) {
     $hashed_pass = hash('sha256', $data['password']);
@@ -91,6 +108,56 @@ class User {
       array_push($result, $assessment);
     }
     return $result;
+  }
+
+  public function getAvgScore($db, $userId) {
+    $q = "SELECT * from projects";
+    $result = $db->query($q);
+
+    $sum = 0;
+    $count = 0;
+    while($p =& $result->fetch_assoc()) {
+      $q = "SELECT groupId from groups where userId={$userId} and projectId={$p['projectId']}";
+      $r = $db->query($q);
+      $groupId = $r->fetch_assoc()['groupId'];
+
+      $q = "SELECT AVG(score1 + score2 + score3 + score4 + score5) as score from assessments WHERE groupAssessed = {$groupId} AND projectId = {$p['projectId']}";
+      $r = $db->query($q);
+      if($r) {
+        $data = $r->fetch_assoc();
+        $sum += $data['score'];
+        $count += 1;
+      }
+    }
+    return $sum / $count;
+  }
+
+  public function getNumReports($db, $userId) {
+    $q = "SELECT * from projects";
+    $result = $db->query($q);
+
+    $count = 0;
+    $numProjects = $result->num_rows;
+    $submitted = array();
+    $notSubmitted = array();
+    while($p =& $result->fetch_assoc()) {
+      $q = "SELECT groupId from groups where userId={$userId} and projectId={$p['projectId']}";
+      $r = $db->query($q);
+      $groupId = $r->fetch_assoc()['groupId'];
+
+      $q = "SELECT * from reports where projectId={$p['projectId']} and groupId={$groupId}";
+      $r = $db->query($q);
+      if($r) {
+        // echo 'in here';
+        $count += 1;
+        $submittedString .= ($p['projectTitle'].", ");
+        array_push($submitted, $p);
+      } else {
+        $notSubmittedString .= ($p['projectTitle'].", ");
+        array_push($notSubmitted, $p);
+      }
+    }
+    return array($count, $numProjects, substr($submittedString, 0, -2), substr($notSubmittedString, 0, -2), $submitted, $notSubmitted);
   }
 
 }

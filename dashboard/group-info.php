@@ -17,10 +17,7 @@
         </h3>
       </div>
     </div> 
-   <!-- /. ROW  -->
-    <div class="row">                     
-
-    </div>
+  
   </div>
   <!-- /. PAGE INNER  -->
 </div>
