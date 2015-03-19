@@ -67,8 +67,9 @@ class Project {
     return $data['count'];
   }
 
-  public function isDuplicate($email, $db) {
-    $check_dup = $db->query("SELECT * FROM projects WHERE projectTitle = '{$title}'");
+  public function isDuplicate($title, $db) {
+    $q = "SELECT * FROM projects WHERE projectTitle = '{$title}'";
+    $check_dup = $db->query($q);
     if ($check_dup->num_rows == 1) {
       return True;
     }

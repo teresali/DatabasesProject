@@ -9,7 +9,7 @@
   if(isset($_POST['submit'])) {
     $data = array(
         'projectTitle'  => $_POST['title'],
-        'dueDate'       => '2015-03-17 00:00:00', //hardcoded for now!
+        'dueDate'       => $_POST['date'], 
         'projectDescription' => $_POST['description'],
         'criteria1'     => $_POST['criteria1'],
         'criteria2'     => $_POST['criteria2'],
@@ -21,7 +21,7 @@
     $errors ='';
         
     if(Project::isDuplicate($_POST['title'], $DB)) {
-      $errors = 'Account already exists for this email.';
+      $errors = 'Project Name already exists.';
     }
     
     if($errors == '') {
@@ -40,6 +40,7 @@
                       <div class="row">
                         <div class="col-lg-12">
                           <form role="form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                            <div class="errors"> <?php if($errors) { echo $errors; } ?> </div>
                             <div class="form-group">
                               <label>Project Title</label>
                               <input class="form-control" name="title" required>
@@ -48,6 +49,22 @@
                               <label>Project description</label>
                               <textarea class="form-control" rows="10" name="description"></textarea>
                             </div>
+
+                            <div class="container">
+                              <div class="row">
+                                <div class='col-lg-4'>
+                                  <div class="form-group">
+                                    Due Date
+                                    <div class='input-group date' id='datetimepicker1'>
+                                      <input type='text' class="form-control" name="date" placeholder="YYYY-MM-DD HH:MM:SS"/>
+                                      <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
                             <div class="col-lg-4">
                               <div class="form-group">
                                 <label>Assessment Criteria</label>
@@ -83,3 +100,10 @@
     <!-- /. PAGE WRAPPER -->
 
 <?php include('admin-footer.php'); ?>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#datetimepicker1').datetimepicker();
+  });
+
+</script>
