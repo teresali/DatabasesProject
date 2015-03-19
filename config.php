@@ -17,4 +17,6 @@ define('DOC_ROOT', $_SERVER['DOCUMENT_ROOT']);
 // include filepath 
 define('INCLUDE_DIR', $_SERVER['DOCUMENT_ROOT'] . '/include');
 
+define('PAC_PATH','/phpAutocomplete/');
+
 ?>
