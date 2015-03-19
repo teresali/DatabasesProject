@@ -1,6 +1,5 @@
 <?php include('admin-header.php'); 
 
-  session_start();
   include_once($_SERVER['DOCUMENT_ROOT'].'/config.php');
   include_once(DOC_ROOT.'/php/functions.php');
  
@@ -30,12 +29,16 @@
   }
 ?>
     <div id="page-wrapper">
-        <div id="page-inner">            
+        <div id="page-inner">
+          <div class="row">
+            <div class="col-md-12">
+              <h3 class="page-header">
+                Add Project  
+              </h3>
+            </div>
+          </div>             
             <div class="col-lg-12"> 
                   <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Create new project
-                    </div>
                     <div class="panel-body">
                       <div class="row">
                         <div class="col-lg-12">

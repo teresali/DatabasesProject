@@ -55,6 +55,7 @@
           $mean = Project::calculateMean($DB, $projectId);
           $stddev = Project::calculateStdDev($DB, $projectId);
           $scoreType = Assessment::scoreType($mean, $stddev, $total);
+          $graderScore = Project::getScoreForUser($DB, $projectId, $a['groupId'])['total'];
 
           if($scoreType == 0) {
             $footer = "<div class='panel-footer back-footer-green left-align' style='height:35px'>";
@@ -70,6 +71,7 @@
                 <div class='panel panel-primary text-center no-boder'>
                   <div class='panel-body'>
                       {$comments}
+                      <br><div class='graderScore'>Grader's score: {$graderScore}/25</div>
                   </div>
                   {$footer}
                     <div class='col-md-3'>

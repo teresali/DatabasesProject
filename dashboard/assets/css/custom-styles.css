@@ -531,3 +531,7 @@ p {
   color: #FFFFFF;
   text-decoration: none;
 }
+.graderScore {
+  float:right;
+  color:grey;
+}

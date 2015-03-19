@@ -49,7 +49,8 @@
 		        </h3>
 		      </div>
 		    </div> 
-            <input type="file" name="file" id="fileInput">
+
+            <input type="file" id="fileInput">
 	        <a href="#" id="addStudents"> Upload Class Roster </p></a>
 	        <!--
 	        <input id="max_members" placeholder="# members per group" name="max_members">
@@ -61,25 +62,40 @@
 	        -->
 	        <form class="form-horizontal form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>"> 
 	        <label>Project:</label>
-	        	<select required class="span2" name="project" id="projectOptions"></select>
+	        	<select required class="form-control" name="project" id="projectOptions">
+	        		<?php
+	        			$DB = Database::Instance();
+	        			$q = "SELECT * from projects";
+						$result = $DB->query($q); 
+
+					  	if ($result->num_rows >= 1) {
+						  	while ($row = $result->fetch_assoc()) {
+						  		echo "<option value={$row['projectTitle']}>{$row['projectTitle']}</option>";
+						    }
+						}
+
+	        		?>
+	        	</select>
 	        	<br>
 	        	<br>
-	        	<table id="GroupsTable" class="table-striped" style="width:100%"> 
-	        		<tbody>
-	        			<tr>
-	        				<th> Group </th>
-	        				<th> Member 1</th>
-	        				<th> Member 2</th>
-	        				<th> Member 3</th>
-	        			</tr>
-	        			<tr>
-	        				<td>1</td>
-	        				<td><select class="member_select" name="group[1][]"></select></td>
-	        				<td><select class="member_select" name="group[1][]"></select></td>
-	        				<td><select class="member_select" name="group[1][]"></select></td>
-	        			</tr>
-	        		</tbody>
-	        	</table>
+	        	<div class="table-responsive"> 
+		        	<table id="GroupsTable" class="table table-striped table-bordered table-hover" style="width:100%"> 
+		        		<tbody>
+		        			<tr>
+		        				<th class="col-md-1"> Group </th>
+		        				<th class="col-md-1"> Member 1</th>
+		        				<th class="col-md-1"> Member 2</th>
+		        				<th class="col-md-1"> Member 3</th>
+		        			</tr>
+		        			<tr>
+		        				<td>1</td>
+		        				<td><select class="form-control member_select" name="group[1][]"></select></td>
+		        				<td><select class="form-control member_select" name="group[1][]"></select></td>
+		        				<td><select class="form-control member_select" name="group[1][]"></select></td>
+		        			</tr>
+		        		</tbody>
+		        	</table>
+		        </div>	
 	        	<div class="col-lg-12">
         			<a href="#" id="addGroup"><i class="glyphicon glyphicon-plus-sign"></i> Add Group</p></a>
         		</div>
@@ -127,7 +143,7 @@
         {
         	var name="group[]"
             var row = document.getElementById("GroupsTable").insertRow(-1);
-            row.innerHTML = '<td>' + groupNum + '</td><td><select class="member_select" name="group[' + groupNum + '][]"></select></td><td><select class="member_select" name="group[' + groupNum + '][]"></select></td><td><select class="member_select" name="group[' + groupNum + '][]"></select></td>';
+            row.innerHTML = '<td>' + groupNum + '</td><td><select class="form-control member_select" name="group[' + groupNum + '][]"></select></td><td><select class="form-control member_select" name="group[' + groupNum + '][]"></select></td><td><select class="form-control member_select" name="group[' + groupNum + '][]"></select></td>';
             setMemberOptions();
             groupNum++;
 
@@ -150,21 +166,6 @@
 		    });
 
 		}
-
-		$(document).ready(function() { 
-			jQuery.getJSON("../../php/get-projects.php",{
-			    format: "json",
-			    dataType: 'json',
-			    contentType: "application/json; charset=utf-8"},
-			    function(json){
-			    	var projects = json;
-			    	for (i in projects){
-			    		var option = new Option(json[i], json[i]);
-			    		$("#projectOptions").append(option);
-			    	}
-			});
-		});
-
 	
         document.getElementById('fileInput').onchange = function(){
 		  var file = this.files[0];
