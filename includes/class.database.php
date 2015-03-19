@@ -49,6 +49,10 @@ final class Database {
     }
   }
 
+  public function test() {
+    echo "FUCK";
+  }
+
   /* Rolls back current transaction 
       @params:
   */

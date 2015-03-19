@@ -21,6 +21,17 @@
     <script src="../assets/js/moment.js"></script>
     <script src="../assets/js/bootstrap-datetimepicker.min.js"></script> 
 
+    <script type="text/javascript">
+        // console.log(document.location.href);
+        // var loc = document.location.href;
+        // var split = loc.split("/");
+        // var curr = split[split.length-1];
+        // console.log(curr);
+        // $("a.active-menu").removeClass('active-menu');
+        // console.log("a[href=" + curr + "]");
+        // $("a[href={curr}]").addClass('active-menu');
+    </script>
+
 </body>
 
 </html>

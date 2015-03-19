@@ -518,9 +518,6 @@ p {
 .offset {
   padding-left: 195px;
 }
-html {
-  height:100%;
-}
 .report-button {
   border:none;
   background-color:rgba(0,0,0,0);
@@ -530,10 +527,7 @@ html {
   margin-top:2px;
   opacity:.7;
 }
-[class^="icon-"], [class*=" icon-"] {
-    display: inline-block;
-    width: 100%;
-}
-td i {
-    text-align:center;
+.no-style {
+  color: #FFFFFF;
+  text-decoration: none;
 }

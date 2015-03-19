@@ -60,21 +60,17 @@
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
-                    <li class="active-menu">
-                        <a href="index.php"><i class="fa fa-dashboard"></i> Projects</a>
+                    <li>
+                        <a href="index.php"><i class="fa fa-dashboard"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="projects.php"><i class="fa fa-file-text-o"></i> Projects</a>
                     </li>
                     <li>
                         <a href="assessments.php"><i class="fa fa-edit"></i> My Assessments</a>
                     </li>
                     <li>
-                        <a href="group-info.php"><i class="fa fa-bar-chart-o"></i> Group Info</a>
-                    </li>
-                    
-                    <li>
                         <a href="forum.php"><i class="fa fa-table"></i> Forum</a>
-                    </li>
-                    <li>
-                        <a href="form.html"><i class="fa fa-edit"></i> Forms</a>
                     </li>
                 </ul>
 

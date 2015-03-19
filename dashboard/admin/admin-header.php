@@ -66,7 +66,7 @@
                 <ul class="nav" id="main-menu">
 
                     <li>
-                        <a class="active-menu" href="index.php"><i class="fa fa-dashboard"></i> Dashboard</a>
+                        <a href="index.php"><i class="fa fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
                         <a href="view-scores.php"><i class="fa fa-edit"></i> View Scores</a>

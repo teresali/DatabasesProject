@@ -215,7 +215,7 @@
 
                 <div class="form-group">
                   <label>Comments</label>
-                  <textarea id="comments" class="form-control" rows="3" name="comments" required></textarea>
+                  <textarea id="comments" class="form-control" rows="5" name="comments" required></textarea>
                 </div>
                 <button type="submit" class="btn btn-default btn-primary" name="submit">Submit</button>
             </form>

@@ -95,6 +95,7 @@ class Project {
       'total' => $data['score'],
       's1'    => $data['s1'],
       's2'    => $data['s2'],
+      's3'    => $data['s3'],
       's4'    => $data['s4'],
       's5'    => $data['s5']
     );
