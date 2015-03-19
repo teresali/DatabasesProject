@@ -1,6 +1,5 @@
 <?php include('admin-header.php'); 
 
-  session_start();
   include_once($_SERVER['DOCUMENT_ROOT'].'/config.php');
   include_once(DOC_ROOT.'/php/functions.php');
  

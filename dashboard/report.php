@@ -272,8 +272,10 @@
                   <input class="form-control" name="title" required>
                 </div>
                 <div class="form-group">
-                  <label>Upload File</label>
+                  <label>Upload Text File</label>
                   <input type="file" name="uploadedReport">
+                  <label>Upload XML File</label>
+                  <input type="file" name="xmlReport">
                 </div>
                 <div class="form-group">
                   <label>Or Paste File Contents Here</label>
