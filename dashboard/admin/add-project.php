@@ -1,33 +1,41 @@
-<?php include('admin-header.php'); 
+<?php 
+  session_start();
+  // redirects to 404 page if user is not admin
+  if(!$_SESSION['isAdmin']) {
+    echo "<div style='margin-left:560px; margin-top:200px'><img src='sadface.png' height='200px' width='200px'><p><div style='font-size:50pt; margin-left:50px'>404</div></p><p><div style='font-size:20pt;margin-left:-70px'>Not an Admin Unable to View Page</div></p>";
+    header("HTTP/1.0 404 Not Found");
+    exit();
+  } else {
 
-  include_once($_SERVER['DOCUMENT_ROOT'].'/config.php');
-  include_once(DOC_ROOT.'/php/functions.php');
- 
-  $DB = Database::Instance();
-  
-  if(isset($_POST['submit'])) {
-    $data = array(
-        'projectTitle'  => $_POST['title'],
-        'dueDate'       => $_POST['date'], 
-        'projectDescription' => $_POST['description'],
-        'criteria1'     => $_POST['criteria1'],
-        'criteria2'     => $_POST['criteria2'],
-        'criteria3'     => $_POST['criteria3'],
-        'criteria4'     => $_POST['criteria4'],
-        'criteria5'     => $_POST['criteria5'],
-        'maxAssess'     => $_POST['max']
-    );
-        
-    $errors ='';
-        
-    if(Project::isDuplicate($_POST['title'], $DB)) {
-      $errors = 'Project Name already exists.';
-    }
+    include('admin-header.php'); 
+    include_once($_SERVER['DOCUMENT_ROOT'].'/config.php');
+    include_once(DOC_ROOT.'/php/functions.php');
+
+    $DB = Database::Instance();
     
-    if($errors == '') {
-      Project::addProject($data, $DB);
+    if(isset($_POST['submit'])) {
+      $args = array(
+          'projectTitle'  => $_POST['title'],
+          'dueDate'       => $_POST['date'], 
+          'projectDescription' => $_POST['description'],
+          'criteria1'     => $_POST['criteria1'],
+          'criteria2'     => $_POST['criteria2'],
+          'criteria3'     => $_POST['criteria3'],
+          'criteria4'     => $_POST['criteria4'],
+          'criteria5'     => $_POST['criteria5'],
+          'maxAssess'     => $_POST['max']
+      );
+          
+      // strips the array of arguments for html tags and sql injections
+      // function is written in php/functions.php
+      $output = strip_arr($args, $DB);
+      $data = $output['arr'];
+      $errors = $output['errors'];
+      
+      if($errors == '') {
+        Project::addProject($data, $DB);
+      }
     }
-  }
 ?>
     <div id="page-wrapper">
         <div id="page-inner">
@@ -109,7 +117,11 @@
     </div>
     <!-- /. PAGE WRAPPER -->
 
-<?php include('admin-footer.php'); ?>
+<?php 
+
+include('admin-footer.php'); 
+
+}?>
 
 <script type="text/javascript">
   $(document).ready(function() {

@@ -1,9 +1,10 @@
 <?php 
   include('header.php');
   $DB = Database::Instance();
-  $groupId = $_SESSION['user']->getGroupId();
+  $userId = $_SESSION['user']->getUserId();
   $groupToAssess = $_GET['toassess'];
   $projectId = $_GET['projectId'];
+  $groupId = User::getGroupIdDB($DB, $projectId, $userId);
 
   $report = Report::exists($DB, $groupToAssess, $projectId);
   $project = Project::exists($DB, $projectId);
@@ -12,6 +13,7 @@
 
   if(isset($_POST['submit'])) {
     if(isset($_POST['score1']) && isset($_POST['score2']) && isset($_POST['score3']) && isset($_POST['score4']) && isset($_POST['score5'])) {
+      // don't need to escape the scores because they are integer values
       $s1 = $_POST['score1'];
       $s2 = $_POST['score2'];
       $s3 = $_POST['score3'];

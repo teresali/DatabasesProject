@@ -37,7 +37,7 @@ $DB = Database::Instance();
                                     echo "<div>&nbsp&nbsp{$text}</div></p>";
                                 }
                             ?>
-                            
+
                           </div>
                         </div>
                     </div>
@@ -64,7 +64,6 @@ $DB = Database::Instance();
                             </div>
                             <div class="panel-footer back-footer-blue">
                                 View Assessments
-
                             </div>
                         </div>
                         </a>
@@ -88,8 +87,7 @@ $DB = Database::Instance();
                                 <i class="fa fa-list-alt fa-5x" style="padding-top:15px"></i>
                             </div>
                             <div class="panel-footer back-footer-brown">
-                                Assign Assessments
-
+                                Student Info
                             </div>
                         </div>
                         </a>

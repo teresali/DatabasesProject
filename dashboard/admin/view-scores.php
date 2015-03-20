@@ -1,8 +1,15 @@
 <?php 
-include('admin-header.php'); 
-include('../../config.php');
-?>
+  session_start();
+  // redirects to 404 page if user is not an admin
+  if(!$_SESSION['isAdmin']) {
+    echo "<div style='margin-left:560px; margin-top:200px'><img src='sadface.png' height='200px' width='200px'><p><div style='font-size:50pt; margin-left:50px'>404</div></p><p><div style='font-size:20pt;margin-left:-70px'>Not an Admin Unable to View Page</div></p>";
+    header("HTTP/1.0 404 Not Found");
+    exit();
+  } else {
 
+    include('admin-header.php'); 
+    include('../../config.php');
+?>
 
     <div id="page-wrapper">
         <div id="page-inner">
@@ -49,21 +56,21 @@ include('../../config.php');
                                           $result = $DB->query($q);
                                                
                                           while($p =& $result->fetch_assoc()) {
-                                              $projectId = $p['projectId'];
-                                              $title = $p['projectTitle'];
-                                              $dueDate = $p['dueDate'];
-                                              // have to change once configure admin                                            
-                                              $mean = Project::calculateMean($DB, $projectId);
-                                              $stddev = Project::calculateStdDev($DB, $projectId);
-                                              $numSubmissions = Project::countSubmissions($DB, $projectId);
+                                            $projectId = $p['projectId'];
+                                            $title = $p['projectTitle'];
+                                            $dueDate = $p['dueDate'];
+                                                                                      
+                                            $mean = Project::calculateMean($DB, $projectId);
+                                            $stddev = Project::calculateStdDev($DB, $projectId);
+                                            $numSubmissions = Project::countSubmissions($DB, $projectId);
 
-                                              echo "<tr>";
-                                              echo "<td><a href=view-scores-project.php?projectId={$projectId}>{$title}<S/a></td>";
-                                              echo "<td>{$dueDate}</td>";
-                                              echo "<td>{$mean}</td>";
-                                              echo "<td>{$stddev}</td>";
-                                              echo "<td>{$numSubmissions}</td>";
-                                              echo "</tr>";
+                                            echo "<tr>";
+                                            echo "<td><a href=view-scores-project.php?projectId={$projectId}>{$title}<S/a></td>";
+                                            echo "<td>{$dueDate}</td>";
+                                            echo "<td>{$mean}</td>";
+                                            echo "<td>{$stddev}</td>";
+                                            echo "<td>{$numSubmissions}</td>";
+                                            echo "</tr>";
                                           }
                                        }
                                     ?>
@@ -110,7 +117,7 @@ include('../../config.php');
                                               $avg = User::getAvgScore($DB, $userId);
                                               $numReports = User::getNumReports($DB, $userId);
 
-                                              if($avg <= 12) {
+                                              if($avg <= 12 && ($numReports[0] != 0)) {
                                                 $comments = 'Student is below average';
                                               } else {
                                                 $comments = '';
@@ -169,7 +176,9 @@ include('../../config.php');
         <!-- /. PAGE INNER  -->
     </div>
     <!-- /. PAGE WRAPPER -->
-<?php include('admin-footer.php'); ?>
+<?php 
+include('admin-footer.php'); 
+}?>
 
 
 

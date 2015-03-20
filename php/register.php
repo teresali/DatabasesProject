@@ -18,7 +18,9 @@
       'password'  => $_POST['password'],
       'isAdmin'   => 0  // user is not an admin
     );
-    $output = strip_arr($args);
+    // strips the array of arguments for html tags and sql injections
+    // function is written in php/functions.php
+    $output = strip_arr($args, $DB);
     $data = $output['arr'];
     $errors = $output['errors'];
     $email = $data['email'];
@@ -31,8 +33,6 @@
       User::addUser($data, $DB);
       header("Location: ../index.php");
       exit();
-    } else {
-
     }
   }
 

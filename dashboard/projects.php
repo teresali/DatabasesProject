@@ -33,22 +33,37 @@
                                                     $DB = Database::Instance();
                                                     $q = "SELECT projectId, projectTitle, dueDate from Projects";
                                                     $result = $DB->query($q);
-                                                    $groupId = $_SESSION['user']->getGroupId();   
+                                                    $userId = $_SESSION['user']->getUserId();
 
                                                     while($p =& $result->fetch_assoc()) {
                                                         $projectId = $p['projectId'];
                                                         $title = $p['projectTitle'];
                                                         $dueDate = $p['dueDate'];
+                                                        $groupId = User::getGroupIdDB($DB, $projectId, $userId);
+
                                                         // have to change once configure admin                                             
                                                         $mean = Project::calculateMean($DB, $projectId);
-                                                        $score = Project::getScoreForUser($DB, $projectId, $groupId)['total'];
+
+                                                        if($groupId) {
+                                                            $score = Project::getScoreForUser($DB, $projectId, $groupId)['total'];
+                                                            $report = Report::exists($DB, $groupId, $projectId);
+                                                        } else {
+                                                            $score = '';
+                                                            $report = NULL;
+                                                        }
+
+                                                        if($report) {
+                                                            $status = 'Submitted';
+                                                        } else {
+                                                            $status = 'Not Submitted';
+                                                        }
 
                                                         echo "<tr>";
                                                         echo "<td><a href=report.php?projectId={$projectId}&groupId={$groupId}>{$title}<S/a></td>";
                                                         echo "<td>{$dueDate}</td>";
                                                         echo "<td>{$score}</td>";
                                                         echo "<td>{$mean}</td>";
-                                                        echo "<td>Graded</td>";
+                                                        echo "<td>{$status}</td>";
                                                         echo "</tr>";
                                                     }
                                                }

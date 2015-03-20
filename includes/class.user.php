@@ -44,7 +44,8 @@ class User {
     return $this->isAdmin;
   }
 
-  // checks  if the user is already in the database
+  // checks  if the user is already in the database based on email 
+  // used for registration
   public function isDuplicate($email, $db) {
     $check_dup = $db->query("SELECT * FROM users WHERE email = '{$email}'");
     if ($check_dup->num_rows == 1) {
@@ -53,6 +54,7 @@ class User {
     return False;
   }
 
+  // checks if a user exists in the database
   public function exists($db, $userId) {
     $q = "SELECT * FROM users 
             WHERE userId = {$userId}";
@@ -61,13 +63,6 @@ class User {
       return $check_exists->fetch_assoc();
     }
     return NULL;
-  }
-
-  // retrieve the groupId
-  public function findGroupId($db, $userId) {
-    $q = "SELECT groupId from groups";
-    $r = $db->query($q);
-    return $r->fetch_assoc()['groupId'];
   }
 
   // adds a user to the database
@@ -81,7 +76,7 @@ class User {
     $data['userId'] = $id;
     $user = new User($data);
     // to be removed!
-    $user->setGroupId(1);
+    $user->setGroupId(2);
     $_SESSION['user'] = $user;
   }
 
@@ -110,6 +105,7 @@ class User {
     return $result;
   }
 
+  // gets the average score across all projects and reports
   public function getAvgScore($db, $userId) {
     $q = "SELECT * from projects";
     $result = $db->query($q);
@@ -121,7 +117,7 @@ class User {
       $r = $db->query($q);
       $groupId = $r->fetch_assoc()['groupId'];
 
-      $q = "SELECT AVG(score1 + score2 + score3 + score4 + score5) as score from assessments WHERE groupAssessed = {$groupId} AND projectId = {$p['projectId']}";
+      $q = "SELECT ROUND(AVG(score1 + score2 + score3 + score4 + score5),2) as score from assessments WHERE groupAssessed = {$groupId} AND projectId = {$p['projectId']}";
       $r = $db->query($q);
       if($r) {
         $data = $r->fetch_assoc();
@@ -132,6 +128,8 @@ class User {
     return $sum / $count;
   }
 
+  // calculates the number of reports that the user has submitted and not submitted
+  // data is used in the admin panel
   public function getNumReports($db, $userId) {
     $q = "SELECT * from projects";
     $result = $db->query($q);
@@ -147,7 +145,7 @@ class User {
 
       $q = "SELECT * from reports where projectId={$p['projectId']} and groupId={$groupId}";
       $r = $db->query($q);
-      if($r) {
+      if($r->num_rows == 1) {
         // echo 'in here';
         $count += 1;
         $submittedString .= ($p['projectTitle'].", ");
@@ -158,6 +156,13 @@ class User {
       }
     }
     return array($count, $numProjects, substr($submittedString, 0, -2), substr($notSubmittedString, 0, -2), $submitted, $notSubmitted);
+  }
+
+  // returns the group id for a given project
+  public function getGroupIdDB($db, $projectId, $userId) {
+    $q = "SELECT groupId from groups where userId={$userId} and projectId={$projectId}";
+    $r = $db->query($q);
+    return $r->fetch_assoc()['groupId'];
   }
 
 }
