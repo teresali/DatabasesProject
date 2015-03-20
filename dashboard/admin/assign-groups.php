@@ -206,7 +206,6 @@
         <!-- /. PAGE INNER  -->
     </div>
     <!-- /. PAGE WRAPPER -->
-<<<<<<< HEAD
 </body>
 <!DOCTYPE HTML>
 	<html lang="en">
