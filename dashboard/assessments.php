@@ -41,6 +41,7 @@
                       $assessment = Assessment::isCompleted($DB, $groupId, $a['groupToAssess'], $a['projectId']);
 
                       if($assessment == NULL) {
+                        echo 'not complete';
                         echo "<tr>";
                         echo "<td><a href='single-view-assessment.php?toassess={$a['groupToAssess']}&projectId={$a['projectId']}' title='Assess'>{$title}</a></td>";
                         echo "<td>{$projectTitles[$a['projectId']]}</td>";

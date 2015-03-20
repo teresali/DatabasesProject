@@ -54,6 +54,13 @@ class Report {
             WHERE projectId={$data['projectId']} and groupId={$data['groupId']}";
     $db->query($q);
   }
+
+  public function getTitleDB($db, $groupId, $projectId) {
+    $q = "SELECT title from reports where groupId={$groupId} and projectId={$projectId}";
+    $r = $db->query($q);
+    $data = $r->fetch_assoc();
+    return $data['title'];
+  }
 }
 
 ?>
