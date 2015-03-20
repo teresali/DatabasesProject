@@ -1,7 +1,5 @@
-<<<<<<< HEAD
-<?php include('admin-header.php'); 
-=======
 <?php 
+
   session_start();
   // redirects to 404 page if user is not an admin
   if(!$_SESSION['isAdmin']) {
@@ -9,27 +7,21 @@
     header("HTTP/1.0 404 Not Found");
     exit();
   } else {
+		include('admin-header.php'); 
+	  	include_once($_SERVER['DOCUMENT_ROOT'].'/config.php');
+	  	include_once(DOC_ROOT.'/php/functions.php');
+	 
+	  	$DB = Database::Instance();
 
-  include('admin-header.php'); 
-
-?>
->>>>>>> 5905efc7bfc815e091e07f0bb6206e1c6c2f8c12
-
-	session_start();
-  	include_once($_SERVER['DOCUMENT_ROOT'].'/config.php');
-  	include_once(DOC_ROOT.'/php/functions.php');
- 
-  	$DB = Database::Instance();
-
-  	if(isset($_POST['submit'])) {
+	  	if(isset($_POST['submit'])) {
 
 
-  		$projectTitle = $_POST['project'];
-		$result = $DB->query("SELECT projectId FROM projects WHERE projectTitle='{$projectTitle}'");
-		$data = $result->fetch_assoc();
-		$projectId = $data["projectId"];
+	  		$projectTitle = $_POST['project'];
+			$result = $DB->query("SELECT projectId FROM projects WHERE projectTitle='{$projectTitle}'");
+			$data = $result->fetch_assoc();
+			$projectId = $data["projectId"];
 
-  		$table_data = $_POST['group'];
+	  		$table_data = $_POST['group'];
 
 
 		foreach($table_data as $groupId => $groupMembers) {
@@ -167,14 +159,15 @@
                       				$user_q = "SELECT userId FROM groups WHERE groupId='{$groupId}' AND projectId='{$projectId}'";
                       				$user_result = $DB->query($user_q);
 
-                      				//while ($user_data = $user_result->fetch_assoc()) {
                       				$max_cols = 3;
                       				while ($max_cols > 0){
 		                      			while ($user_data = $user_result->fetch_assoc()) {
 		                      					
 	                      					$userId = $user_data['userId'];
+	                      					echo " ".$userId." ";
 	                      					$userName = $DB->query("SELECT fName, lName FROM users WHERE userId='{$userId}'")->fetch_assoc();
                   							echo "<td>{$userName['fName']} {$userName['lName']}</td>";
+                  							echo "Name: ".$userName['fName'];
 	                      					$max_cols--;
 		                      			}
 
@@ -339,10 +332,7 @@
 
  		</script>
 	</head>
-<?php include('admin-footer.php'); ?>
-=======
 
 <?php 
 include('admin-footer.php'); 
 }?>
->>>>>>> 5905efc7bfc815e091e07f0bb6206e1c6c2f8c12

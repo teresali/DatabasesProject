@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-<?php include('admin-header.php'); 
-=======
 <?php 
   session_start();
   // redirects to 404 page if user is not an admin
@@ -10,12 +7,8 @@
     exit();
   } else {
 
-  include('admin-header.php'); 
+  	include('admin-header.php'); 
 
-?>
->>>>>>> 5905efc7bfc815e091e07f0bb6206e1c6c2f8c12
-
-	session_start();
   	include_once($_SERVER['DOCUMENT_ROOT'].'/config.php');
   	include_once(DOC_ROOT.'/php/functions.php');
  
@@ -32,7 +25,6 @@
 		
 		foreach ($table_data as $groupToAssess => $assessingGroups) {
     		foreach ($assessingGroups as $groupId) {
-    			//echo "groupId: ".$groupId." groupToAssess: ".$groupToAssess." projectId: ".$projectId;
     			if ($groupId != "") {
 	    			$q = "INSERT INTO groupstoassess VALUES ('{$groupId}', '{$groupToAssess}', '{$projectId}')";
 	    			$DB->query($q);
@@ -41,13 +33,7 @@
     	}
  
   	}
-/*
-  	$q = "SELECT * FROM groupstoassess WHERE projectId='{$projectId}'";
-	$result = $DB->query($q);
-	if ($result->num_rows) >= 1){
 
-	}
-*/
 ?>
 
 <body>
@@ -159,12 +145,10 @@
                       			}
 
                       			echo '</tr>';
-                      			/*
-                      			 <th class='col-md-1'> Assessed By (1)</th><th class='col-md-1'> Assessed By (2)</th><th class='col-md-1'> Assessed By (3)</th></tr>";
-         */
+                     
                       			while ($assessed_data = $assessed_result->fetch_assoc()) {
                       				$assessed_id = $assessed_data['groupToAssess'];
-                      				//echo $assessed_id." ";
+                      				
                       				echo "<tr>";
 
                       				echo "<td>{$assessed_id}</td>";
@@ -210,7 +194,6 @@
         <!-- /. PAGE INNER  -->
     </div>
     <!-- /. PAGE WRAPPER -->
-<<<<<<< HEAD
 </body>
 <!DOCTYPE HTML>
 	<html lang="en">
@@ -339,15 +322,12 @@
 		function sortNumber(a,b) {
 		    return a - b;
 		}
-=======
+
+		</script>
+	</head>
 
 <?php 
 
 include('admin-footer.php'); 
 
 }?>
->>>>>>> 5905efc7bfc815e091e07f0bb6206e1c6c2f8c12
-
- 		</script>
-	</head>
-<?php include('admin-footer.php'); ?>
