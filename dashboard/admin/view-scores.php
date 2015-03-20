@@ -3,7 +3,6 @@ include('admin-header.php');
 include('../../config.php');
 ?>
 
-
     <div id="page-wrapper">
         <div id="page-inner">
           <div class="row">

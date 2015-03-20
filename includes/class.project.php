@@ -115,6 +115,7 @@ class Project {
     return $scores;
   }
     
+  // gets the rank for a project
   public function getRankForUser($db, $projectId, $groupId) {
     $q = "SELECT groupAssessed, avgScore, @curRank := @curRank + 1 as rank 
           FROM (
