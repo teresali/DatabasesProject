@@ -42,7 +42,7 @@
         	<div class="row">
 		      <div class="col-md-12">
 		        <h3 class="page-header">
-		          Assessment Assignments  
+		          Assessments   
 		        </h3>
 		      </div>
 		    </div> 
@@ -53,8 +53,8 @@
 
           <!-- Nav tabs -->
           <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#assign" aria-controls="home" role="tab" data-toggle="tab">Assign Assessments</a></li>
-            <li role="presentation"><a href="#view" aria-controls="profile" role="tab" data-toggle="tab">View Assigned Assessments</a></li>
+            <li role="presentation" class="active"><a href="#assign" aria-controls="home" role="tab" data-toggle="tab">Assign </a></li>
+            <li role="presentation"><a href="#view" aria-controls="profile" role="tab" data-toggle="tab">View</a></li>
           </ul>
 
           <!-- Tab panes -->
