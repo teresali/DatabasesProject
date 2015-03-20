@@ -39,7 +39,6 @@
 
                     while($a =& $r->fetch_assoc()) {
                       $assessment = Assessment::isCompleted($DB, $groupId, $a['groupToAssess'], $a['projectId']);
-                      $title = Report::getTitleDB($DB, $a['groupToAssess'], $a['projectId']);
 
                       if($assessment == NULL) {
                         echo "<tr>";

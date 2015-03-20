@@ -26,13 +26,7 @@ class Report {
     return $this->title;
   }
 
-  public function getTitleDB($db, $groupId, $projectId) {
-    $q = "SELECT title from reports where groupId={$groupId} and projectId={$projectId}";
-    $r = $db->query($q);
-    $data = $r->fetch_assoc();
-    return $data['title'];
-  }
-
+  // checks if a report exists in the database
   public function exists($db, $groupId, $projectId) {
     $q = "SELECT * FROM reports 
             WHERE groupId = {$groupId} and projectId = {$projectId}";
@@ -43,6 +37,7 @@ class Report {
     return NULL;
   }
 
+  // adds a report to the database
   public function addReport($data, $db) {
     $date = date('Y-m-d H:i:s');
     $q = "INSERT INTO reports (groupId, projectId, title, dateSubmitted, textContent, md5) 
@@ -50,6 +45,8 @@ class Report {
     $db->query($q);
   }
 
+  // replaces an existing report if it already exists
+  // does not keep previous submissions in database
   public function replaceExisting($data, $db) {
     $date = date('Y-m-d H:i:s');
     $q = "UPDATE reports
@@ -57,7 +54,6 @@ class Report {
             WHERE projectId={$data['projectId']} and groupId={$data['groupId']}";
     $db->query($q);
   }
-
 }
 
 ?>

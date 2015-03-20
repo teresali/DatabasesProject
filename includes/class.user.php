@@ -44,7 +44,8 @@ class User {
     return $this->isAdmin;
   }
 
-  // checks  if the user is already in the database
+  // checks  if the user is already in the database based on email 
+  // used for registration
   public function isDuplicate($email, $db) {
     $check_dup = $db->query("SELECT * FROM users WHERE email = '{$email}'");
     if ($check_dup->num_rows == 1) {
@@ -53,6 +54,7 @@ class User {
     return False;
   }
 
+  // checks if a user exists in the database
   public function exists($db, $userId) {
     $q = "SELECT * FROM users 
             WHERE userId = {$userId}";
@@ -61,13 +63,6 @@ class User {
       return $check_exists->fetch_assoc();
     }
     return NULL;
-  }
-
-  // retrieve the groupId
-  public function findGroupId($db, $userId) {
-    $q = "SELECT groupId from groups";
-    $r = $db->query($q);
-    return $r->fetch_assoc()['groupId'];
   }
 
   // adds a user to the database
@@ -110,6 +105,7 @@ class User {
     return $result;
   }
 
+  // gets the average score across all projects and reports
   public function getAvgScore($db, $userId) {
     $q = "SELECT * from projects";
     $result = $db->query($q);
@@ -132,6 +128,8 @@ class User {
     return $sum / $count;
   }
 
+  // calculates the number of reports that the user has submitted and not submitted
+  // data is used in the admin panel
   public function getNumReports($db, $userId) {
     $q = "SELECT * from projects";
     $result = $db->query($q);

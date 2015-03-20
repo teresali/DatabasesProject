@@ -9,62 +9,62 @@
   $curr = new Project($project);
 
   // on submit upload the report
-  // if(isset($_POST['submit'])) {
-  //   $errors = '';
-  //   $title = $_POST['title'];
-  //   $file = $_FILES['uploadedReport']['tmp_name'];
-  //   $filename = $_FILES['uploadedReport']['name'];
+  if(isset($_POST['submit'])) {
+    $errors = '';
+    $title = $_POST['title'];
+    $file = $_FILES['uploadedReport']['tmp_name'];
+    $filename = $_FILES['uploadedReport']['name'];
 
-  //   // both file and pasted text
-  //   if(file_exists($file) && $_POST['pastedText']) {
-  //     $errors = 'Unable to both upload file and paste contents. Please fix!';
-  //   // file upload
-  //   } elseif($_FILES['uploadedReport']['error'] == UPLOAD_ERR_OK && is_uploaded_file($file)) {
-  //     if(strpos($filename, '.xml') == false) {
-  //       echo 'not xml';
-  //       $textContent = file_get_contents($file); 
-  //     } else {
-  //       // loads an xml file into the database
-  //       $xml = simplexml_load_file($file);
-  //       $title = $xml->title;
-  //       $textContent = $xml->body;
-  //     }
-  //     $md5 = md5_file($_FILES['uploadedReport']['tmp_name']);
-  //   // pasted text
-  //   } elseif($_POST['pastedText']) {
-  //     $textContent = $_POST['pastedText'];
-  //     $md5 = 'None';
-  //   // no input
-  //   } else {
-  //     $errors = 'No file or pasted text was entered. Please fix!';
-  //   }
+    // both file and pasted text
+    if(file_exists($file) && $_POST['pastedText']) {
+      $errors = 'Unable to both upload file and paste contents. Please fix!';
+    // file upload
+    } elseif($_FILES['uploadedReport']['error'] == UPLOAD_ERR_OK && is_uploaded_file($file)) {
+      if(strpos($filename, '.xml') == false) {
+        echo 'not xml';
+        $textContent = file_get_contents($file); 
+      } else {
+        // loads an xml file into the database
+        $xml = simplexml_load_file($file);
+        $title = $xml->title;
+        $textContent = $xml->body;
+      }
+      $md5 = md5_file($_FILES['uploadedReport']['tmp_name']);
+    // pasted text
+    } elseif($_POST['pastedText']) {
+      $textContent = $_POST['pastedText'];
+      $md5 = 'None';
+    // no input
+    } else {
+      $errors = 'No file or pasted text was entered. Please fix!';
+    }
 
-  //   // if no title is given then use filename or 'No Title'
-  //   if($title == '') {
-  //     if($filename != '') {
-  //       $title = $filename;
-  //     } else {
-  //       $title = 'No Title';
-  //     }
-  //   }
+    // if no title is given then use filename or 'No Title'
+    if($title == '') {
+      if($filename != '') {
+        $title = $filename;
+      } else {
+        $title = 'No Title';
+      }
+    }
 
-    // // // process submission if there are no errors
-  //   if($errors == '') {
-  //     $data = array(
-  //       'groupId'       => $groupId,
-  //       'projectId'     => $projectId,
-  //       'title'         => $title,
-  //       'textContent'   => $textContent,
-  //       'md5'           => $md5
-  //     );
-  //     // check if group has already submitted a report for a project
-  //     if(Report::exists($DB, $groupId, $projectId) != NULL) {
-  //       Report::replaceExisting($data, $DB);
-  //     } else {
-  //       Report::addReport($data, $DB);
-  //     }
-  //   }
-  // }
+    // // process submission if there are no errors
+    if($errors == '') {
+      $data = array(
+        'groupId'       => $groupId,
+        'projectId'     => $projectId,
+        'title'         => $title,
+        'textContent'   => $textContent,
+        'md5'           => $md5
+      );
+      // check if group has already submitted a report for a project
+      if(Report::exists($DB, $groupId, $projectId) != NULL) {
+        Report::replaceExisting($data, $DB);
+      } else {
+        Report::addReport($data, $DB);
+      }
+    }
+  }
 
 ?>
 
@@ -85,20 +85,20 @@
           <div class="panel-heading">
             Summary
           </div>
-          <div class="panel-body" style="height: 218px;">
+          <div class="panel-body" style="height: 230px;">
             <table class="table borderless" id="borderless">
               <tbody>
                 <tr>
                   <td class="col-md-3">Description:</td>
-                  <td class="col-md-9"><?php //echo $curr->getDescription(); ?></td>
+                  <td class="col-md-9"><?php echo $curr->getDescription(); ?></td>
                 </tr>
                 <tr>
                   <td class="col-md-3">Due Date:</td>
-                  <td class="col-md-9"><?php //echo $curr->getDueDate(); ?></td>
+                  <td class="col-md-9"><?php echo $curr->getDueDate(); ?></td>
                 </tr>
                 <tr>
                   <td class="col-md-3">Group Members:</td>
-                  <td class="col-md-9"><?php //echo User::getGroupMembers($DB, $groupId, $projectId); ?></td>
+                  <td class="col-md-9"><?php echo User::getGroupMembers($DB, $groupId, $projectId); ?></td>
                 </tr>
                 <tr>
                   <td class="col-md-4">Late Submissions:</td>
@@ -125,7 +125,7 @@
               <a href='<?php echo "view-assessments.php?projectId={$projectId}&groupId={$groupId}" ?>'>View Assessments</a>
             </div>
           </div>
-          <div class="panel-body" style="height: 218px;">
+          <div class="panel-body" style="height: 230px;">
             <table class="table borderless" id="borderless">
               <tbody>
                 <tr>
