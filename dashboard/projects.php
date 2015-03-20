@@ -42,13 +42,20 @@
                                                         // have to change once configure admin                                             
                                                         $mean = Project::calculateMean($DB, $projectId);
                                                         $score = Project::getScoreForUser($DB, $projectId, $groupId)['total'];
+                                                        $report = Report::exists($DB, $groupId, $projectId);
+
+                                                        if($report) {
+                                                            $status = 'Submitted';
+                                                        } else {
+                                                            $status = 'Not Submitted';
+                                                        }
 
                                                         echo "<tr>";
                                                         echo "<td><a href=report.php?projectId={$projectId}&groupId={$groupId}>{$title}<S/a></td>";
                                                         echo "<td>{$dueDate}</td>";
                                                         echo "<td>{$score}</td>";
                                                         echo "<td>{$mean}</td>";
-                                                        echo "<td>Graded</td>";
+                                                        echo "<td>{$status}</td>";
                                                         echo "</tr>";
                                                     }
                                                }
