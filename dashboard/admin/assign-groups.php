@@ -164,10 +164,8 @@
 		                      			while ($user_data = $user_result->fetch_assoc()) {
 		                      					
 	                      					$userId = $user_data['userId'];
-	                      					echo " ".$userId." ";
 	                      					$userName = $DB->query("SELECT fName, lName FROM users WHERE userId='{$userId}'")->fetch_assoc();
                   							echo "<td>{$userName['fName']} {$userName['lName']}</td>";
-                  							echo "Name: ".$userName['fName'];
 	                      					$max_cols--;
 		                      			}
 
