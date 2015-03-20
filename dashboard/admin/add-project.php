@@ -95,7 +95,7 @@
                             <div class="col-lg-12">
 
                               <div class="form-group">
-                              <label>Maximum Number of Assessments Per Report</label>
+                              <label>Number of Groups Assessing a Report</label>
                               <input class="form-control" name="max" required>
                               </div>
 
