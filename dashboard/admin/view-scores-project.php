@@ -43,9 +43,6 @@
                                       $DB = Database::Instance();
                                       $q = "SELECT DISTINCT groupId from groups where projectId={$projectId}";
                                       $result = $DB->query($q);
-                                      
-                                      // echo("<script>console.log('Request: ".$q."');</script>");
-                                      // echo("<script>console.log('Request: ".json_encode($result->fetch_assoc())."');</script>");
                                            
                                       while($g =& $result->fetch_assoc()) {
                                           $groupId = $g['groupId'];
@@ -54,6 +51,10 @@
                                           $score = Project::getScoreForUser($DB, $projectId, $groupId)['total'];
                                           $rank = Project::getRankForUser($DB, $projectId, $groupId);
                                           $dateSubmitted = $report ? $report['dateSubmitted'] : 'Not Submitted Yet';
+
+                                          if(!$rank) {
+                                            $rank[0] = 'None';
+                                          }
 
                                           echo "<tr>";
                                           echo "<td>{$rank[0]}</td>";

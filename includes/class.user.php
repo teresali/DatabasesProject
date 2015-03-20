@@ -117,7 +117,7 @@ class User {
       $r = $db->query($q);
       $groupId = $r->fetch_assoc()['groupId'];
 
-      $q = "SELECT AVG(score1 + score2 + score3 + score4 + score5) as score from assessments WHERE groupAssessed = {$groupId} AND projectId = {$p['projectId']}";
+      $q = "SELECT ROUND(AVG(score1 + score2 + score3 + score4 + score5),2) as score from assessments WHERE groupAssessed = {$groupId} AND projectId = {$p['projectId']}";
       $r = $db->query($q);
       if($r) {
         $data = $r->fetch_assoc();
@@ -145,7 +145,7 @@ class User {
 
       $q = "SELECT * from reports where projectId={$p['projectId']} and groupId={$groupId}";
       $r = $db->query($q);
-      if($r) {
+      if($r->num_rows == 1) {
         // echo 'in here';
         $count += 1;
         $submittedString .= ($p['projectTitle'].", ");
@@ -156,6 +156,13 @@ class User {
       }
     }
     return array($count, $numProjects, substr($submittedString, 0, -2), substr($notSubmittedString, 0, -2), $submitted, $notSubmitted);
+  }
+
+  // returns the group id for a given project
+  public function getGroupIdDB($db, $projectId, $userId) {
+    $q = "SELECT groupId from groups where userId={$userId} and projectId={$projectId}";
+    $r = $db->query($q);
+    return $r->fetch_assoc()['groupId'];
   }
 
 }

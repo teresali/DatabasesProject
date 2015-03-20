@@ -1,9 +1,10 @@
 <?php 
   include('header.php');
   $DB = Database::Instance();
-  $groupId = $_SESSION['user']->getGroupId();
+  $userId = $_SESSION['user']->getUserId();
   $groupToAssess = $_GET['toassess'];
   $projectId = $_GET['projectId'];
+  $groupId = User::getGroupIdDB($DB, $projectId, $userId);
 
   $report = Report::exists($DB, $groupToAssess, $projectId);
   $project = Project::exists($DB, $projectId);

@@ -36,7 +36,7 @@
             $_SESSION['isAdmin'] = 0;
           }
           // to be changed
-          $_SESSION['user']->setGroupId(1);
+          // $_SESSION['user']->setGroupId(1);
           header('Location: ../index.php');
           exit(); 
 

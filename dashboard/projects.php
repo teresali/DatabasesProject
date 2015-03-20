@@ -33,16 +33,24 @@
                                                     $DB = Database::Instance();
                                                     $q = "SELECT projectId, projectTitle, dueDate from Projects";
                                                     $result = $DB->query($q);
-                                                    $groupId = $_SESSION['user']->getGroupId();   
+                                                    $userId = $_SESSION['user']->getUserId();
 
                                                     while($p =& $result->fetch_assoc()) {
                                                         $projectId = $p['projectId'];
                                                         $title = $p['projectTitle'];
                                                         $dueDate = $p['dueDate'];
+                                                        $groupId = User::getGroupIdDB($DB, $projectId, $userId);
+
                                                         // have to change once configure admin                                             
                                                         $mean = Project::calculateMean($DB, $projectId);
-                                                        $score = Project::getScoreForUser($DB, $projectId, $groupId)['total'];
-                                                        $report = Report::exists($DB, $groupId, $projectId);
+
+                                                        if($groupId) {
+                                                            $score = Project::getScoreForUser($DB, $projectId, $groupId)['total'];
+                                                            $report = Report::exists($DB, $groupId, $projectId);
+                                                        } else {
+                                                            $score = '';
+                                                            $report = NULL;
+                                                        }
 
                                                         if($report) {
                                                             $status = 'Submitted';

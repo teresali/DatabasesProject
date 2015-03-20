@@ -30,27 +30,38 @@
 
                   <?php
                     $DB = Database::Instance();
-                    $groupId = $_SESSION['user']->getGroupId();
+                    $userId = $_SESSION['user']->getUserId();
                     $projectTitles = Project::getTitles($DB);
-
-                    $q = "SELECT * from groupsToAssess where groupId={$groupId}";
-                    $r = $DB->query($q);
                     $completed = array();
 
-                    while($a =& $r->fetch_assoc()) {
-                      $assessment = Assessment::isCompleted($DB, $groupId, $a['groupToAssess'], $a['projectId']);
+                    foreach($projectTitles as $projectId => $projectTitle) {
+                      $groupId = User::getGroupIdDB($DB, $projectId, $userId);
 
-                      if($assessment == NULL) {
-                        echo 'not complete';
-                        echo "<tr>";
-                        echo "<td><a href='single-view-assessment.php?toassess={$a['groupToAssess']}&projectId={$a['projectId']}' title='Assess'>{$title}</a></td>";
-                        echo "<td>{$projectTitles[$a['projectId']]}</td>";
-                        echo "<td>Anonymous</td>";
-                        echo "</tr>";
-                      } else {
-                        array_push($completed, $assessment);
-                      }
+                      if($groupId) {
+                        $q = "SELECT * from groupsToAssess where groupId={$groupId} and projectId={$projectId}";
+                        $r = $DB->query($q);
+
+                        while($a =& $r->fetch_assoc()) {
+                          $assessment = Assessment::isCompleted($DB, $groupId, $a['groupToAssess'], $a['projectId']);
+                          $title = Report::getTitleDB($DB, $a['groupToAssess'], $a['projectId']);
+                          if(!$title) {
+                            $title = 'No Report';
+                          }
+
+                          if($assessment == NULL) {
+                            echo "<tr>";
+                            echo "<td><a href='single-view-assessment.php?toassess={$a['groupToAssess']}&projectId={$a['projectId']}' title='Assess'>{$title}</a></td>";
+                            echo "<td>{$projectTitles[$a['projectId']]}</td>";
+                            echo "<td>Anonymous</td>";
+                            echo "</tr>";
+                          } else {
+                            array_push($completed, $assessment);
+                          }
+                        }
+                      }           
                     }
+
+                    
 
                   ?>
 
@@ -84,7 +95,7 @@
                     <th class="col-md-2">GroupId</th>
                     <th class="col-md-2">Date Assessed</th>
                     <th class="col-md-1">Score Given</th>
-                    <th class="col-md-1">Avg</th>
+                    <th class="col-md-1">Group's Avg</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -105,7 +116,6 @@
                       echo "<td>{$avg}</td>";
                       echo "</tr>";
                     }
-
                   ?>
 
 

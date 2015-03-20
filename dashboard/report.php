@@ -21,7 +21,6 @@
     // file upload
     } elseif($_FILES['uploadedReport']['error'] == UPLOAD_ERR_OK && is_uploaded_file($file)) {
       if(strpos($filename, '.xml') == false) {
-        echo 'not xml';
         $textContent = file_get_contents($file); 
       } else {
         // loads an xml file into the database
