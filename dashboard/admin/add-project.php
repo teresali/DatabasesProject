@@ -14,7 +14,8 @@
         'criteria2'     => $_POST['criteria2'],
         'criteria3'     => $_POST['criteria3'],
         'criteria4'     => $_POST['criteria4'],
-        'criteria5'     => $_POST['criteria5']
+        'criteria5'     => $_POST['criteria5'],
+        'maxAssess'     => $_POST['max']
     );
         
     $errors ='';
@@ -84,6 +85,12 @@
                               </div>
                             </div>
                             <div class="col-lg-12">
+
+                              <div class="form-group">
+                              <label>Maximum Number of Assessments Per Report</label>
+                              <input class="form-control" name="max" required>
+                              </div>
+
                                 <button type="submit" class="btn btn-default btn-primary" name = "submit">Submit</button>
                             </div>
                           </form>

@@ -7,20 +7,18 @@
   	$DB = Database::Instance();
 
   	if(isset($_POST['submit'])) {
+
+
   		$projectTitle = $_POST['project'];
 		$result = $DB->query("SELECT projectId FROM projects WHERE projectTitle='{$projectTitle}'");
 		$data = $result->fetch_assoc();
 		$projectId = $data["projectId"];
 
-  		$array = $_POST['group'];
+  		$table_data = $_POST['group'];
 
-		$name = explode(" ", $member);
 
-		for ($i = 1; $i <= sizeof($array); $i++) {
-			$group = $array[$i];
-			$groupId = $i;
-			for ($j = 0; $j < sizeof($group); $j++) {
-				$member = $group[$j];
+		foreach($table_data as $groupId => $groupMembers) {
+			foreach ($groupMembers as $member) {
 				if ($member != ""){
 					$name = explode(" ", $member);
 					$fName = $name[0];
@@ -30,9 +28,9 @@
 					$userId = $data["userId"];
 					$DB->query("INSERT INTO groups VALUES ('{$userId}', '{$groupId}', '{$projectId}')");
 				}
-				
-			} 
-		} 
+			}
+		}
+
 		
   	}
 
@@ -50,61 +48,152 @@
 		      </div>
 		    </div> 
 
-            <input type="file" id="fileInput">
-	        <a href="#" id="addStudents"> Upload Class Roster </p></a>
-	        <!--
-	        <input id="max_members" placeholder="# members per group" name="max_members">
-	        <br>
-	        <br>
-	        <input id="num_groups" placeholder="# of groups" name="num_groups">
-	        <br>
-	        <br>
-	        -->
-	        <form class="form-horizontal form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>"> 
-	        <label>Project:</label>
-	        	<select required class="form-control" name="project" id="projectOptions">
-	        		<?php
-	        			$DB = Database::Instance();
-	        			$q = "SELECT * from projects";
-						$result = $DB->query($q); 
 
-					  	if ($result->num_rows >= 1) {
-						  	while ($row = $result->fetch_assoc()) {
-						  		echo "<option value={$row['projectTitle']}>{$row['projectTitle']}</option>";
-						    }
-						}
 
-	        		?>
-	        	</select>
-	        	<br>
-	        	<br>
-	        	<div class="table-responsive"> 
-		        	<table id="GroupsTable" class="table table-striped table-bordered table-hover" style="width:100%"> 
-		        		<tbody>
-		        			<tr>
-		        				<th class="col-md-1"> Group </th>
-		        				<th class="col-md-1"> Member 1</th>
-		        				<th class="col-md-1"> Member 2</th>
-		        				<th class="col-md-1"> Member 3</th>
-		        			</tr>
-		        			<tr>
-		        				<td>1</td>
-		        				<td><select class="form-control member_select" name="group[1][]"></select></td>
-		        				<td><select class="form-control member_select" name="group[1][]"></select></td>
-		        				<td><select class="form-control member_select" name="group[1][]"></select></td>
-		        			</tr>
-		        		</tbody>
-		        	</table>
-		        </div>	
-	        	<div class="col-lg-12">
-        			<a href="#" id="addGroup"><i class="glyphicon glyphicon-plus-sign"></i> Add Group</p></a>
-        		</div>
-        		<br>
-        		<br>
-        		<a href="#"><button type="button" id="randomize" class="btn btn-default btn-primary" name="randomize">Random</button></a>
-        		<!--<button id="randomize" class="btn btn-default btn-primary" name="randomize">Random</button>-->
-	        	<button type="submit" class="btn btn-default btn-primary" name="submit">Submit</button>
-	        </form>
+		    <div role="tabpanel">
+
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#assign" aria-controls="home" role="tab" data-toggle="tab">Assign Groups</a></li>
+            <li role="presentation"><a href="#view" aria-controls="profile" role="tab" data-toggle="tab">View Groups</a></li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="assign">
+                <div class="row">
+                  <div class="col-lg-12">
+                  <div class="panel panel-default no-boder">
+                      <div class="panel-body">
+                      		<form class="form-horizontal form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>"> 
+					        	<div class="col-xs-3">
+					        	<select required class="form-control" name="project" id="projectOptions">
+					        		<?php
+					        			$DB = Database::Instance();
+					        			$q = "SELECT * from projects";
+										$result = $DB->query($q); 
+										echo "<option value=''>Select Project</option>";
+									  	if ($result->num_rows >= 1) {
+										  	while ($row = $result->fetch_assoc()) {
+										  		$projectTitle = $row['projectTitle'];
+										  		echo "<option value='{$projectTitle}'>{$projectTitle}</option>";
+										    }
+										}
+
+					        		?>
+					        	</select>
+					        	</div>
+					        	<br>
+					        	<br>
+					        	<label>Upload Class Roster:</label>
+				            	<input type="file" id="fileInput">
+					        	<br>
+					        	<div class="table-responsive"> 
+						        	<table id="GroupsTable" class="table table-striped table-bordered table-hover" style="width:100%"> 
+						        		<tbody>
+						        			<tr>
+						        				<th class="col-md-1"> Group </th>
+						        				<th class="col-md-1"> Member 1</th>
+						        				<th class="col-md-1"> Member 2</th>
+						        				<th class="col-md-1"> Member 3</th>
+						        			</tr>
+						        		</tbody>
+						        	</table>
+						        </div>	
+					        	<div class="col-lg-12">
+				        			<a href="#" id="addGroup"><i class="glyphicon glyphicon-plus-sign"></i> Add Group</p></a>
+				        		</div>
+				        		<div class="col-lg-12">
+				        			<a href="#" id="removeGroup"><i class="glyphicon glyphicon-minus-sign"></i> Remove Group</p></a>
+				        		</div>
+				        		<br>
+				        		<br>
+				        		<a href="#"><button type="button" id="randomize" class="btn btn-default btn-primary" name="randomize">Random</button></a>
+					        	<button type="submit" class="btn btn-default btn-primary" name="submit">Submit</button>
+					        </form>
+                        </div>
+                        <!-- /. panel-body -->
+                    </div>
+                    <!-- /. panel -->
+                </div>
+                <!-- /. ROW  -->
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="view">
+                <div class="row">
+                  <div class="col-lg-12">
+                  <div class="panel panel-default no-boder">
+                      <div class="panel-body">
+                      	<?php 
+                      		$DB = Database::Instance();
+
+
+                      		$project_q = "SELECT DISTINCT projectId FROM groups";
+                      		$project_result = $DB->query($project_q);
+
+                      		while ($project_data = $project_result->fetch_assoc()) {
+                      			$projectId = $project_data['projectId'];
+                      			$projectTitle = $DB->query("SELECT projectTitle FROM projects WHERE projectId='{$projectId}'")->fetch_assoc()['projectTitle'];
+                      			echo $projectTitle;
+                      			echo "<table class='table table-striped table-bordered table-hover' style='width:100%'>";
+                      			echo "<tbody>";
+
+
+                      			$group_q = "SELECT DISTINCT groupId FROM groups WHERE projectId='{$projectId}'";
+                      			$group_result = $DB->query($group_q);
+
+                      			echo "<tr><th class='col-md-1'> Group</th><th class='col-md-1'> Member 1</th><th class='col-md-1'> Member 2</th><th class='col-md-1'> Member 3</th></tr>";
+         
+                      			while ($group_data = $group_result->fetch_assoc()) {
+                      				$groupId = $group_data['groupId'];
+                      				echo "<tr>";
+
+                      				echo "<td>{$groupId}</td>";
+                      				$user_q = "SELECT userId FROM groups WHERE groupId='{$groupId}' AND projectId='{$projectId}'";
+                      				$user_result = $DB->query($user_q);
+
+                      				//while ($user_data = $user_result->fetch_assoc()) {
+                      				$max_cols = 3;
+                      				while ($max_cols > 0){
+		                      			while ($user_data = $user_result->fetch_assoc()) {
+		                      					
+	                      					$userId = $user_data['userId'];
+	                      					$userName = $DB->query("SELECT fName, lName FROM users WHERE userId='{$userId}'")->fetch_assoc();
+                  							echo "<td>{$userName['fName']} {$userName['lName']}</td>";
+	                      					$max_cols--;
+		                      			}
+
+	                      				if ($max_cols > 0) {
+		                      				echo "<td></td>";
+		                      				$max_cols--; 
+		                      			}		     
+                      					
+                      				} 
+                      				echo "</tr>";
+                      			}
+                      			echo "<tbody>";
+                      			echo "</table>";
+                      		}
+
+
+                      		
+                        ?>      
+                        </div>
+                        <!-- /. panel-body -->
+                    </div>
+                    <!-- /. panel -->
+                </div>
+                <!-- /. ROW  -->
+
+
+            </div>
+          </div>
+        </div>
+
+
+
+
+	        
         </div>
         <!-- /. PAGE INNER  -->
     </div>
@@ -136,61 +225,72 @@
 
 		var names;
 		var memberOptions = ""; 
-		var groupNum = 2;
 		var optionArray;
 
-        function addGroup()
-        {
+	
+
+		document.getElementById("addGroup").addEventListener("click", addGroup);
+
+        function addGroup(){
+        	var rowCount = $('#GroupsTable tr').length;
+        	var groupNum;
+        	if (rowCount == 1){
+        		groupNum = 1;
+        	} else {
+        		groupNum = parseInt($('#GroupsTable tr:last').find('td:first').text()) + 1;
+        	}
+        	
         	var name="group[]"
             var row = document.getElementById("GroupsTable").insertRow(-1);
             row.innerHTML = '<td>' + groupNum + '</td><td><select class="form-control member_select" name="group[' + groupNum + '][]"></select></td><td><select class="form-control member_select" name="group[' + groupNum + '][]"></select></td><td><select class="form-control member_select" name="group[' + groupNum + '][]"></select></td>';
             setMemberOptions();
             groupNum++;
-
         }
 
-        document.getElementById ("addStudents").addEventListener ("click", setMemberOptions, false);
-        //document.getElementById ("addStudents").addEventListener ("click", randomize, false);
-
-        document.getElementById ("addGroup").addEventListener ("click", addGroup, false);
+        document.getElementById("removeGroup").onclick = function(){
+        	$('#GroupsTable tr:last').remove();
+        };
 
         function setMemberOptions()
         {
-			$(".member_select:empty").each(function() {  //update with member select?
+			$(".member_select").each(function() {  
 		        var select = $(this);
+		        select.empty();
+		        var default_option = new Option("Select", "");
+		        $(select).append(default_option);
 		        for (i in names) {
 		        	var option = new Option(names[i], names[i]);
-		        	$(option).attr('id', names[i]); //works?
+		        	$(option).attr('id', names[i]); 
 			        $(select).append(option);
 			    }
 		    });
 
 		}
-	
+
+
         document.getElementById('fileInput').onchange = function(){
-		  var file = this.files[0];
-		  names = new Array;
-		  names.push(""); //empty option
+          file = this.files[0]; 
+          names = new Array;
 		  var reader = new FileReader();
-		  reader.onload = function(progressEvent){
+		  reader.readAsText(file);
+		  reader.onload = function(){
 		    var lines = this.result.split('\n');
 		    for(i in lines){
 		      names.push(lines[i]);
+		      setMemberOptions();
 		    }
 		  };
-		  reader.readAsText(file);
-		
-		};
+        };
 
 
 		document.getElementById('randomize').onclick = function(){
-			var num_names = names.length - 1; 
+			$("GroupsTable").find("tr:gt(0)").remove();
+			var num_names = names.length; 
 			var num_groups = Math.ceil(num_names / 3); //hardcoded 3, only group size supported currently
-			for (var i = 1; i < num_groups; i++) {
+			for (var i = 0; i < num_groups; i++) {
 				addGroup();
 			};
-			var members = names.slice(1);
-			members = shuffle(members);
+			var members = shuffle(names);
 			$(".member_select").each(function(index) {  //update with member select?
 				if (index < members.length){
 			        var select = $(this);
@@ -220,18 +320,7 @@
 		  return array;
 		}
 
-/*
-		document.getElementsByClassName("member_select").onchange = function() {
-			var selection = this.value;
-			$(".member_select").each(function() {  //update with member select?
-		        var select = $(this);
-			    $(select).remove(selection);
-			    
-		    });
-			
 
-		};
- */
  		</script>
 	</head>
 <?php include('admin-footer.php'); ?>
