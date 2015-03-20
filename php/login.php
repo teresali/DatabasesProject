@@ -12,10 +12,9 @@
     if (empty($_POST['email']) || empty($_POST['password'])) {
       $errors = "Username or Password is invalid"; //Username or Password not provided
     } else {
-      $email=$_POST['email'];
-      $password=$_POST['password'];
       $DB = Database::Instance();
-
+      $email = $DB->escape_string(htmlentities(trim($_POST['email'])));
+      $password = $DB->escape_string(htmlentities(trim($_POST['password'])));
 
       $result = $DB->query("SELECT * from users where email='{$email}'"); 
 
@@ -35,8 +34,7 @@
           } else {
             $_SESSION['isAdmin'] = 0;
           }
-          // to be changed
-          // $_SESSION['user']->setGroupId(1);
+
           header('Location: ../index.php');
           exit(); 
 

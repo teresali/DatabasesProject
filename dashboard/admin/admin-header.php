@@ -79,7 +79,7 @@
                         <a href="assign-groups.php"><i class="fa fa-table"></i> Assign Groups</a>
                     </li>
                     <li>
-                        <a href="assign-assessments.php"><i class="fa fa-edit"></i> Assign Assesments</a>
+                        <a href="assign-assessments.php"><i class="fa fa-edit"></i> Assign Assessments</a>
                     </li>
                 </ul>
 

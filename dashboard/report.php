@@ -11,7 +11,7 @@
   // on submit upload the report
   if(isset($_POST['submit'])) {
     $errors = '';
-    $title = $_POST['title'];
+    $title = $DB->escape_string(htmlentities(trim($_POST['title'])));
     $file = $_FILES['uploadedReport']['tmp_name'];
     $filename = $_FILES['uploadedReport']['name'];
 
@@ -21,7 +21,7 @@
     // file upload
     } elseif($_FILES['uploadedReport']['error'] == UPLOAD_ERR_OK && is_uploaded_file($file)) {
       if(strpos($filename, '.xml') == false) {
-        $textContent = file_get_contents($file); 
+        $textContent = $DB->escape_string(htmlentities(trim(file_get_contents($file)))); 
       } else {
         // loads an xml file into the database
         $xml = simplexml_load_file($file);

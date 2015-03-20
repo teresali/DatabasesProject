@@ -1,12 +1,12 @@
 <?php
 
 
-function strip_arr($input_arr) {
+function strip_arr($input_arr, $db) {
   $errors = '';
   $strip_arr = array();
 
   foreach($input_arr as $type => $val) {
-    $stripped = htmlentities(trim($val));
+    $stripped = $db->escape_string(htmlentities(trim($val)));
 
     switch($type) {
       case 'email':
